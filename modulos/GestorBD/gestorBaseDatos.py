@@ -25,14 +25,15 @@ class baseDatos:
 			
 	def consultar(self,sql):			
 		db = self.conexion.cursor()		
-		db.execute(sql)
-		filas = db.fetchall()
-					
+		db.execute(sql)		
+		return db.fetchall()
+		""""
 		data = []
 		for fila in filas:
 			data.append(fila)			
 		
 		return data
+		"""
 	
 	def leerTablas(self):
 		sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"				
