@@ -1,9 +1,9 @@
 <?php 
 class Roles_usuarios extends ActiveRecord\Model
 {
-	static $table_name = 'roles_usuarios';
+	static $db = 'public';
 
-	static $primary_key = 'id';
+	static $table_name = 'roles_usuarios';
 
 	public function listarRoles_usuarios()
 	{
@@ -17,12 +17,11 @@ class Roles_usuarios extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarRoles_usuarios($data)
+	public function consultarRoles_usuarios($id)
 	{
 		try
 		{
-			$objeto = Roles_usuarios::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Roles_usuarios::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -55,7 +54,7 @@ class Roles_usuarios extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarRoles_usuarios($id)
+	public function eliminarRoles_usuarios($id)
 	{
 		try
 		{

@@ -1,7 +1,11 @@
 <?php 
 class Permisos extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'permisos';
+
+	static $primary_key = 'id_per';
 
 	public function listarPermisos()
 	{
@@ -15,12 +19,11 @@ class Permisos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarPermisos($data)
+	public function consultarPermisos($id)
 	{
 		try
 		{
-			$objeto = Permisos::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Permisos::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -53,7 +56,7 @@ class Permisos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarPermisos($id)
+	public function eliminarPermisos($id)
 	{
 		try
 		{

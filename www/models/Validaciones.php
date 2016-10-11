@@ -1,9 +1,11 @@
 <?php 
 class Validaciones extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'validaciones';
 
-	static $primary_key = 'id';
+	static $primary_key = 'id_val';
 
 	public function listarValidaciones()
 	{
@@ -17,12 +19,11 @@ class Validaciones extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarValidaciones($data)
+	public function consultarValidaciones($id)
 	{
 		try
 		{
-			$objeto = Validaciones::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Validaciones::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -55,7 +56,7 @@ class Validaciones extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarValidaciones($id)
+	public function eliminarValidaciones($id)
 	{
 		try
 		{

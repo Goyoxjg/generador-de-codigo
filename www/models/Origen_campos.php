@@ -1,6 +1,8 @@
 <?php 
 class Origen_campos extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'origen_campos';
 
 	public function listarOrigen_campos()
@@ -15,12 +17,11 @@ class Origen_campos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarOrigen_campos($data)
+	public function consultarOrigen_campos($id)
 	{
 		try
 		{
-			$objeto = Origen_campos::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Origen_campos::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -53,7 +54,7 @@ class Origen_campos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarOrigen_campos($id)
+	public function eliminarOrigen_campos($id)
 	{
 		try
 		{

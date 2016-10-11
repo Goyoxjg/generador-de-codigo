@@ -1,6 +1,8 @@
 <?php 
 class Permisos_roles extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'permisos_roles';
 
 	public function listarPermisos_roles()
@@ -15,12 +17,11 @@ class Permisos_roles extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarPermisos_roles($data)
+	public function consultarPermisos_roles($id)
 	{
 		try
 		{
-			$objeto = Permisos_roles::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Permisos_roles::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -53,7 +54,7 @@ class Permisos_roles extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarPermisos_roles($id)
+	public function eliminarPermisos_roles($id)
 	{
 		try
 		{

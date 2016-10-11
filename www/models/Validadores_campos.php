@@ -1,9 +1,9 @@
 <?php 
 class Validadores_campos extends ActiveRecord\Model
 {
-	static $table_name = 'validadores_campos';
+	static $db = 'public';
 
-	static $primary_key = 'id';
+	static $table_name = 'validadores_campos';
 
 	public function listarValidadores_campos()
 	{
@@ -17,12 +17,11 @@ class Validadores_campos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarValidadores_campos($data)
+	public function consultarValidadores_campos($id)
 	{
 		try
 		{
-			$objeto = Validadores_campos::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Validadores_campos::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -55,7 +54,7 @@ class Validadores_campos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarValidadores_campos($id)
+	public function eliminarValidadores_campos($id)
 	{
 		try
 		{

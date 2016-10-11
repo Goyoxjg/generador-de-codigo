@@ -39,7 +39,7 @@ def crearEstructura():
 nl = '\n'
 tab = '\t'			
 
-def metodoListar(modelo):	
+def metodoListar(modelo):		
 	cadena = ''
 	cadena += tab+'public function listar'+modelo+'()'+nl+tab
 	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3	
@@ -73,11 +73,19 @@ def metodoModificar(modelo):
 	
 def metodoEliminar(modelo):	
 	cadena = ''
-	cadena += tab+'public function modificar'+modelo+'($id)'+nl+tab
+	cadena += tab+'public function eliminar'+modelo+'($id)'+nl+tab
 	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3	
 	cadena += '$objeto = '+modelo+'::find($id]);'+nl+tab*3+'return $objeto->delete();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
 	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2	
-	return cadena						
+	return cadena			
+	
+def metodoConsultarUltimo(modelo):
+	cadena = ''
+	cadena += tab+'public function consultarUltimo'+modelo+'()'+nl+tab
+	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3	
+	cadena += 'return '+modelo+'::last();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2	
+	return cadena
 
 try:
 	"""
@@ -112,15 +120,22 @@ try:
 		tab = '\t'			
 		
 		nombre_modelo = tabla[0].capitalize()
-		
+				
 		archivo = open("www/models/"+nombre_modelo+'.php','w')	
 		
 		
 		
 		campos = []		
+		
+		model = '<?php \nclass '+nombre_modelo+' extends ActiveRecord\Model\n{\n'
+		
+		model += tab+'static $db = \''+tabla[1]+'\';'+nl*2
+			
+		model += tab+'static $table_name = \''+tabla[0]+'\';'+nl*2    					
+		
+		
 		for res in connBD.leerCamposTablas(tabla[0]):		
-			
-			
+				
 			
 			column_name = res[3]
 			column_default = res[5],
@@ -129,29 +144,30 @@ try:
 			character_maximun = res[8]
 			#data_type = res[7]
 			
-									
-			model = '<?php \nclass '+nombre_modelo+' extends ActiveRecord\Model\n{\n'
 			
-			model += tab+'static $table_name = \''+tabla[0]+'\';'+nl*2    			
+			
+			
+			
+			
 			
 			patron = re.compile('nextval')
 			
 			if column_default[0]:				
-				if patron.match(column_default[0]) != None:					
+				if (patron.match(column_default[0]) != None) and (column_name != "id"):					
 					model += tab+'static $primary_key = \''+column_name+'\';'+nl*2
-																		
-			model += metodoListar(nombre_modelo)
-			model += metodoModificar(nombre_modelo)
-			model += metodoAgregar(nombre_modelo)
-			model += metodoModificar(nombre_modelo)
-			model += metodoEliminar(nombre_modelo)
-			
-			model += nl+'}'+nl+'?>'
-							
-			
+								
 			#tmp = {'column_name':res[3],'column_default':res[5],'is_nullable':res[6],'data_type':res[7]}
 			#print res
 			#campos.append(tmp)			
+		
+		
+		model += metodoListar(nombre_modelo)
+		model += metodoConsultar(nombre_modelo)
+		model += metodoAgregar(nombre_modelo)
+		model += metodoModificar(nombre_modelo)
+		model += metodoEliminar(nombre_modelo)
+		
+		model += nl+'}'+nl+'?>'
 		
 		archivo.write(model)
 		#print campos

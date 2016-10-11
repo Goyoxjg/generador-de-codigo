@@ -1,6 +1,8 @@
 <?php 
 class Configuraciones extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'configuraciones';
 
 	public function listarConfiguraciones()
@@ -15,12 +17,11 @@ class Configuraciones extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarConfiguraciones($data)
+	public function consultarConfiguraciones($id)
 	{
 		try
 		{
-			$objeto = Configuraciones::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Configuraciones::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -53,7 +54,7 @@ class Configuraciones extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarConfiguraciones($id)
+	public function eliminarConfiguraciones($id)
 	{
 		try
 		{

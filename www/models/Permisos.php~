@@ -1,15 +1,13 @@
 <?php 
-class Roles extends ActiveRecord\Model
+class Permisos extends ActiveRecord\Model
 {
-	static $db = 'public';
+	static $table_name = 'permisos';
 
-	static $table_name = 'roles';
-
-	public function listarRoles()
+	public function listarPermisos()
 	{
 		try
 		{
-			return Roles::find('all');
+			return Permisos::find('all');
 		}
 		catch (Exception $exc)
 		{
@@ -17,11 +15,11 @@ class Roles extends ActiveRecord\Model
 		}
 	}
 
-	public function consultarRoles($id)
+	public function consultarPermisos($id)
 	{
 		try
 		{
-			return Roles::find($id);
+			return Permisos::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -29,11 +27,11 @@ class Roles extends ActiveRecord\Model
 		}
 	}
 
-	public function agregarRoles($data)
+	public function agregarPermisos($data)
 	{
 		try
 		{
-			return Roles::create($data);
+			return Permisos::create($data);
 		}
 		catch (Exception $exc)
 		{
@@ -41,11 +39,11 @@ class Roles extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarRoles($data)
+	public function modificarPermisos($data)
 	{
 		try
 		{
-			$objeto = Roles::find($data['id']);
+			$objeto = Permisos::find($data['id']);
 			return $objeto->update_attributes($data);
 		}
 		catch (Exception $exc)
@@ -54,11 +52,11 @@ class Roles extends ActiveRecord\Model
 		}
 	}
 
-	public function eliminarRoles($id)
+	public function eliminarPermisos($id)
 	{
 		try
 		{
-			$objeto = Roles::find($id]);
+			$objeto = Permisos::find($id]);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)

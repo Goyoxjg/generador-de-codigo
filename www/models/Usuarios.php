@@ -1,6 +1,8 @@
 <?php 
 class Usuarios extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'usuarios';
 
 	public function listarUsuarios()
@@ -15,12 +17,11 @@ class Usuarios extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarUsuarios($data)
+	public function consultarUsuarios($id)
 	{
 		try
 		{
-			$objeto = Usuarios::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Usuarios::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -53,7 +54,7 @@ class Usuarios extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarUsuarios($id)
+	public function eliminarUsuarios($id)
 	{
 		try
 		{

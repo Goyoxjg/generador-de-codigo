@@ -1,6 +1,8 @@
 <?php 
 class Permisos_usuarios extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'permisos_usuarios';
 
 	public function listarPermisos_usuarios()
@@ -15,12 +17,11 @@ class Permisos_usuarios extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarPermisos_usuarios($data)
+	public function consultarPermisos_usuarios($id)
 	{
 		try
 		{
-			$objeto = Permisos_usuarios::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Permisos_usuarios::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -53,7 +54,7 @@ class Permisos_usuarios extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarPermisos_usuarios($id)
+	public function eliminarPermisos_usuarios($id)
 	{
 		try
 		{

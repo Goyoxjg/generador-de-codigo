@@ -1,7 +1,11 @@
 <?php 
 class Tipos_datos extends ActiveRecord\Model
 {
+	static $db = 'public';
+
 	static $table_name = 'tipos_datos';
+
+	static $primary_key = 'id_tipo_dato';
 
 	public function listarTipos_datos()
 	{
@@ -15,12 +19,11 @@ class Tipos_datos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarTipos_datos($data)
+	public function consultarTipos_datos($id)
 	{
 		try
 		{
-			$objeto = Tipos_datos::find($data['id']);
-			return $objeto->update_attributes($data);
+			return Tipos_datos::find($id);
 		}
 		catch (Exception $exc)
 		{
@@ -53,7 +56,7 @@ class Tipos_datos extends ActiveRecord\Model
 		}
 	}
 
-	public function modificarTipos_datos($id)
+	public function eliminarTipos_datos($id)
 	{
 		try
 		{
