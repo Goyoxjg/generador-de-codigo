@@ -4,7 +4,7 @@
 
 # aptitude install python-psycopg2
 from modulos.GestorBD.gestorBaseDatos import*
-import os,re
+import os, re, shutil, os.path
 
 def crearCarpeta(dir):	
 	if not os.path.exists(dir):
@@ -86,6 +86,14 @@ def metodoConsultarUltimo(modelo):
 	cadena += 'return '+modelo+'::last();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
 	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2	
 	return cadena
+	
+	
+def obtenerRutas(tmp):
+	if os.path.isdir(tmp):
+		return os.listdir(tmp)
+		
+	return false
+	
 
 try:
 	"""
@@ -122,9 +130,7 @@ try:
 		nombre_modelo = tabla[0].capitalize()
 				
 		archivo = open("www/models/"+nombre_modelo+'.php','w')	
-		
-		
-		
+					
 		campos = []		
 		
 		model = '<?php \nclass '+nombre_modelo+' extends ActiveRecord\Model\n{\n'
@@ -132,22 +138,38 @@ try:
 		model += tab+'static $db = \''+tabla[1]+'\';'+nl*2
 			
 		model += tab+'static $table_name = \''+tabla[0]+'\';'+nl*2    					
+				
 		
+		constraint = connBD.consultarConstraint(tabla[0])
+		
+		has_many = False		
+		if len(constraint):			
+			model += tab+"static $has_many = array("+nl
+			
+			c = len(constraint)
+			for value in constraint:				
+				#nombre_constraint = value[1]
+				tabla_constraint = value[3]
+				tabla_foreign = value[5]
+				
+				model += tab*2+"array('"+tabla_constraint+"'),"+nl
+				model += tab*2+"array('"+tabla_foreign+"','through' => '"+tabla_constraint+"')"
+				c = c-1
+				if c != 0:
+					model += ","+nl
+				else:
+					model += nl+tab+");"+nl*2
+		
+		#http://recursospython.com/guias-y-manuales/os-shutil-archivos-carpetas/
 		
 		for res in connBD.leerCamposTablas(tabla[0]):		
-				
-			
+					
 			column_name = res[3]
 			column_default = res[5],
 			is_nullable = res[6],
 			data_type = res[7]
 			character_maximun = res[8]
 			#data_type = res[7]
-			
-			
-			
-			
-			
 			
 			
 			patron = re.compile('nextval')
@@ -171,6 +193,101 @@ try:
 		
 		archivo.write(model)
 		#print campos
+		
+		
+	#-----------------------------------------------------------------#
+	
+	
+	
+	#ruta_actual = os.getcwd()+"/"
+	#ruta_core = os.getcwd()+"/core/"
+		
+	ruta_core = "core/"	
+	ruta_destino = "www/"
+	
+	for elemento in os.listdir(ruta_core):
+		print "\n copiando del core: %s \n"% elemento		
+		
+		if os.path.exists(ruta_core+elemento):
+			print "\n la ruta origen existe: %s \n" % (ruta_core+elemento)
+			
+		if os.path.exists(ruta_destino):
+			print "\n la ruta destino existe: %s \n"% ruta_destino
+			
+			
+		#org = path_orig+elemento+"/"
+		#des = path_dest+elemento+"/"
+		#org = "core"
+		#des = "wwww"
+		
+		if os.path.exists(ruta_destino+elemento):
+			print "\n la carpeta ya se encuentra creada: %s \n"% (ruta_destino+elemento)
+			
+			shutil.rmtree(ruta_destino+elemento)
+			print "\n Se elimina la carpeta exitente: %s \n"% (ruta_destino+elemento)
+			
+			#os.makedirs(des)
+			os.makedirs(ruta_destino+elemento,0o777)
+			print "\n Se crea la carpeta nuevamente: %s \n"% (ruta_destino+elemento)
+		
+			
+			#print "\n %s "% org
+			#print "\n %s "% des
+			
+			tmp = (ruta_destino+elemento)
+			
+			print tmp 
+			#print obtenerRutas(tmp)
+			c = 0
+			
+			#print os.path.isdir(tmp)
+			while os.path.isdir(tmp):
+				
+				#print obtenerRutas(tmp)
+				#print obtenerRutas(tmp)
+				for e in obtenerRutas(tmp):
+					#print e
+					if os.path.isdir(tmp):
+						print "es un directorio: %s" % tmp+e
+						#print tmp
+						#tmp += e+"/"
+						#os.makedirs(tmp+e+"/",0o777)
+						#print tmp
+						#print "\n"
+						
+					else:
+						f = tmp+e												
+						if os.path.exists(tmp+e):
+							print "el archivo %s no exite" % f
+						else:
+							print "el archivo %s no exite" % f
+						#if os.path.isfile(tmp):
+						
+					
+				
+				
+				print "\n"
+				
+				#tmp += obtenerRutas(tmp)
+				c = c+1
+				if c == 2:
+					break
+				
+			
+				#print ele
+				#print os.path.isdir(org+"/"+ele)
+			
+			"""
+			for ele in os.listdir(org):
+				print ele
+				print os.path.isdir(org+"/"+ele)
+			"""
+			
+			#shutil.copytree(org, des)
+			
+		
+		
+		
 		
 	
 except ValueError:

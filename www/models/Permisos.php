@@ -5,6 +5,13 @@ class Permisos extends ActiveRecord\Model
 
 	static $table_name = 'permisos';
 
+	static $has_many = array(
+		array('permisos_roles'),
+		array('roles','through' => 'permisos_roles'),
+		array('permisos_usuarios'),
+		array('usuarios','through' => 'permisos_usuarios')
+	);
+
 	static $primary_key = 'id_per';
 
 	public function listarPermisos()

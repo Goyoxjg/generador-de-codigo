@@ -5,6 +5,13 @@ class Usuarios extends ActiveRecord\Model
 
 	static $table_name = 'usuarios';
 
+	static $has_many = array(
+		array('roles_usuarios'),
+		array('roles','through' => 'roles_usuarios'),
+		array('permisos_usuarios'),
+		array('permisos','through' => 'permisos_usuarios')
+	);
+
 	public function listarUsuarios()
 	{
 		try

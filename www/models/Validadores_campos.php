@@ -5,6 +5,13 @@ class Validadores_campos extends ActiveRecord\Model
 
 	static $table_name = 'validadores_campos';
 
+	static $has_many = array(
+		array('validadores_campos'),
+		array('origen_campos','through' => 'validadores_campos'),
+		array('validadores_campos'),
+		array('validaciones','through' => 'validadores_campos')
+	);
+
 	public function listarValidadores_campos()
 	{
 		try
