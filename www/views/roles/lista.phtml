@@ -1,0 +1,110 @@
+<?php
+if($this->roles > 0)
+{?>
+<script>
+    $(document).ready(function() {
+        dataTables.aoColumnDefs = [{"bSortable": false, "aTargets": [ 1 ] }];                                    
+        $('.table').dataTable(dataTables);        
+    });
+</script>
+<?php
+}?>
+<div class="row">
+    <div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">    
+            <table class="table table-striped">
+                <thead>
+                    <th class="text-center">Roles</th>            
+                    <th class="text-center">Visualizar</th>            
+                    <th class="text-center">Opciones</th>
+                <thead>
+                <tbody>                    
+                    <?php 
+                    if($this->roles > 0)
+                    {   
+                        foreach ($this->roles as $key => $value) 
+                        {
+                    ?>
+                    <tr>
+                        <td class="text-center"><?= ucwords($value->nom_rol);?></td>            
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    <?php
+                                    switch ($value->niv_acc_rol) 
+                                    {
+                                        case 1:
+                                            $titulo = "Todo";
+                                            break;
+                                        case 2:
+                                            $titulo = "Unidad";
+                                            break;
+                                        case 3:
+                                            $titulo = "Grupo";
+                                            break;
+                                        case 4:
+                                            $titulo = "Individual";
+                                            break;
+                                    }
+                                    ?>
+                                  <?=$titulo?> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="<?= BASE_URL."roles/actionEditarNivelAcceso/".$value->id."/1";?>">Todo</a></li>
+                                    <li><a href="<?= BASE_URL."roles/actionEditarNivelAcceso/".$value->id."/2";?>">Unidad</a></li>
+                                    <li><a href="<?= BASE_URL."roles/actionEditarNivelAcceso/".$value->id."/3";?>">Grupo</a></li>
+                                    <li><a href="<?= BASE_URL."roles/actionEditarNivelAcceso/".$value->id."/4";?>">Individual</a></li>
+                                </ul>
+                            </div>
+                        </td>            
+                        <td class="text-center">
+                            <a href="<?= BASE_URL."roles/actionConsultar/".$value->id;?>" class="btn btn-primary" role="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <a href="<?= BASE_URL."roles/actionEditar/".$value->id;?>" class="btn btn-primary" role="button">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                            <a href="<?= BASE_URL."roles/actionGestionarInicio/".$value->id;?>" class="btn btn-primary" role="button">
+                                <span class="glyphicon glyphicon-cog"></span>
+                            </a>
+                            <a class="btn btn-primary" role="button"  onclick="confirmarEliminar('<?= BASE_URL."roles/actionEliminar/".$value->id;?>');">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>           
+                        </td>
+                    </tr>
+                    <?php
+                        }
+                    }
+                    else
+                    {?>
+                    <tr>
+                        <td class="text-center" colspan="5">No Existen datos a mostrar.</td>
+                    </tr>
+                    <?php    
+                    }?>            
+                </tbody>
+            </table>            
+            <a href="<?= BASE_URL;?>roles/actionAgregar" class="btn btn-primary col-md-offset-4"  role="button">Agregar</a>            
+        <hr>
+        <?php 
+        if(isset($this->msg))
+        {?>
+        <!--
+            <div class="col-md-12 alert <?= $this->class;?> text-center">
+                    <h4><?= $this->msg;?></h4>
+            </div>
+        -->
+            <script>                
+                bootboxOpc.title = "Roles";
+                bootboxOpc.message = "<?= $this->msg;?>";
+                bootbox.dialog(bootboxOpc);
+            </script>
+            <?php
+        }
+        ?>
+    </div>
+    <div class="col-md-4"></div>
+</div>

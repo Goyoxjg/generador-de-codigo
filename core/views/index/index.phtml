@@ -1,0 +1,72 @@
+<div class="col-md-12" style="margin-top: 5px;"></div> 
+<div class="col-md-4" style="margin-top: 5px;"></div> 
+<div class="col-md-4" style="margin-top: 5px;"> 
+    <form method="post" action="<?= BASE_URL;?>">
+        <div class="panel panel-primary">
+            <div class="panel-heading panel-title">Control de Acceso</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div style="margin-left: 35px">
+                            <strong><h5>Usuario: </h5></strong>
+                            <input class="form-control" type="text" name="log_usu" placeholder="Usuario" required autofocus autocomplete="off"/>
+                        </div>                    
+                    </div>  
+                    <div class="col-md-2"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div style="margin-left: 35px">
+                            <strong><h5>Contraseña: </h5></strong>
+                            <input class="form-control" type="password" name="pas_usu" placeholder="Contraseña" required/>
+                        </div>                    
+                    </div>       
+                    <div class="col-md-2"></div>
+                </div>        
+                <br>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div style="margin-left: 35px">                        
+                            <input class="btn btn-lg btn-success" type="submit" value="Entrar" />
+                        </div>                    
+                    </div>  
+                    <div class="col-md-4"></div>                    
+                </div>                
+                <br>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 col-md-offset-1">
+                        <p class="text-info text-center">   
+                            <a href="<?= BASE_URL."contrasena/restablecer/" ?>">
+                                <strong>
+                                    <h5>¿Olvido su contraseña?</h5>
+                                </strong>
+                            </a>
+                        </p>
+                    </div>  
+                    <div class="col-md-3"></div>                    
+                </div>                
+        <?php 
+            if(isset($this->msg_error))
+            {?>
+                <div class="row" style="margin-top: 15px;" >
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10 alert alert-danger">
+                        <div style="margin-left: 35px">
+                            <h4><?= $this->msg_error;?>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            <?php
+            }
+            ?>                
+            </div>
+        </div>
+    </form>
+</div>   

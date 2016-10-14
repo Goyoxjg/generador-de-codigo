@@ -1,0 +1,85 @@
+<?php
+if($this->permisosRoles > 0)
+{?>
+<script>
+    $(document).ready(function() {
+        dataTables.aoColumnDefs = [{"bSortable": false, "aTargets": [ 1 ] }];                                    
+        dataTables.sDom = '<"top"f>rt<"bottom"p><"clear">';
+        $('.table').dataTable(dataTables);                
+    });
+</script>
+<?php 
+}?>
+<div class="row">
+    <div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <table class="table table-striped">
+            <thead>
+                <th class="text-center">Modulos</th>
+                <th class="text-center">Estado</th>
+            </thead>
+            <tbody>
+                <?php   
+                if($this->permisosRoles > 0)
+                {
+                    foreach ($this->permisosRoles as $key => $value) 
+                    {?>
+                    <tr>
+                        <td class="text-Left">
+                            <?php 
+                            $valores = explode("_", $value->fk_per);
+                            print ucwords($valores[1]." ".$valores[0]);
+                            ?>
+                        </td>        
+                        <td class="text-center">
+                            <?php
+                            if($value->estado)
+                            {
+                                $icono = 'ok';
+                                $title = "Deshabilitar";
+                                $accion = "deshabilitar(this ,'".$value->id."','".$value->id_per."')";
+                            }
+                            else
+                            {
+                                $icono = 'remove';
+                                $title = "Habilitar";
+                                $accion = "habilitar(this , '".$value->id."','".$value->id_per."')";
+                            }?>
+                            <!--<a href="<?= BASE_URL."roles/actionEditar/".$value->id."/".$value->id_per.'/'.$accion;?>">-->
+                            <a onclick="<?=$accion;?>">
+                                <span title="<?= $title; ?>" style="cursor: pointer" class="glyphicon glyphicon-<?= $icono;?>"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php                 
+                    }
+                }
+                else
+                {?>
+                <tr>
+                    <td class="text-center" colspan="5">No Existen datos a mostrar.</td>
+                </tr> 
+                <?php
+                }?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <a href="<?= BASE_URL;?>roles" class="btn btn-primary col-md-offset-5" role="button">Volver</a>
+    </div>
+</div>
+        <?php 
+            if(isset($this->msg))
+            {?>
+            <script id="msgModal">
+                ejecutarModal("<?= $this->msg;?>","Editar Rol",{label: "Ok"});
+            </script>
+            <?php
+            }
+        ?>     
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<script>
+    $(document).ready(function(){      
+        <?php
+        foreach ($this->indicadores as $key => $value)
+        {
+            echo ($value->par_ind == NULL)?$value->fun_ind.'("'.$value->sel_ind.'");':$value->fun_ind.'("'.$value->sel_ind.'" , '.$value->par_ind.');';
+        }
+        ?>
+    });   
+</script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+    </div>
+    <?php    
+    $c = 1;
+    echo '<div class="row">'; 
+    foreach ($this->indicadores as $key => $value)
+    {
+        $col = (in_array($key, Array("1","4","7","10")))?"6":"3";
+        if($value->tip_ind != "1")
+        {
+            echo '<div class="col-md-'.$col.'">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">'.$value->nom_ind.'</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <style>
+                                    td.details-control {
+                                        background: url(\''.$_layoutParams['ruta_pub'].'/img/details_open.png\') no-repeat center center;
+                                        cursor: pointer;
+                                    }
+                                    tr.shown td.details-control {
+                                        background: url(\''.$_layoutParams['ruta_pub'].'/img/details_close.png\') no-repeat center center;
+                                    }
+                                </style>
+                                <h4>
+                                    Totales:                                                    
+                                    <br>
+                                    <small>
+                                        Asistentes:
+                                        <span class="label label-success">835</span>
+                                    </small>
+                                    <small>
+                                        Inasistentes:
+                                        <span class="label label-warning">50</span>
+                                    </small>
+                                </h4>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Base</th>
+                                            <th>Asistentes</th>
+                                            <th>Inasintenes</th>
+                                        </tr>
+                                    </thead>                            
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+        }
+        else
+        {
+            echo '<div class="col-md-'.$col.'">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">'.$value->nom_ind.'</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="'.$value->sel_ind.'"></div>                                                        
+                                <button type="button" class="btn btn-default btn-primary col-md-2 col-md-offset-5" onclick="detalleGraf(\'aux'.$value->sel_ind.'\',\''.$value->nom_ind.'\',\''.$value->fun_ind.'\')" >
+                                    <span class="glyphicon glyphicon-fullscreen"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+        }
+        echo ($c%3 == 0)?'</div>':''; 
+        $c++;
+    }
+    
+    ?>
+</div> 
+<div class="modal fade bs-example-modal-lg" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="modalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>            
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<script>
+    $(document).ready(function() {
+        dataTables.aoColumnDefs = [{"bSortable": false, "aTargets": [ 1 ] },{"bSortable": false, "aTargets": [ 2 ] }];                                    
+        dataTables.sDom = '<"top">rt<"bottom"ip><"clear">';
+        $('.table').dataTable(dataTables);                
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">&nbsp;</div>    
+</div>
+<div class="row">    
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <legend>Editar Permisos </legend> 
+        <div class="form-group col-md-4">
+            <label for="nom_usu">Usuario</label>
+            <input type="text" class="form-control" value="<?= $this->usuarios->log_usu;?>" readonly>
+        </div>
+        <div class="form-group col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <th class="text-center">Modulos</th>
+                    <th class="text-center">Premisos / Rol</th>
+                    <th class="text-center">Premisos / Usuarios</th>
+                </thead>
+                <tbody>
+                    <?php                           
+                    foreach ($this->permisosUsu as $key => $value) 
+                    {?>
+                    <tr>
+                        <td class="text-Left">
+                            <?= ucwords(str_replace("_", " ", $value->fk_per));?>
+                        </td>        
+                        <td class="text-center">
+                            <?php
+                            if($value->estado_rol)
+                            {
+                                $icono = 'ok';
+                                $title = "Deshabilitar";
+                                $accion = "D";
+                            }
+                            else
+                            {
+                                $icono = 'remove';
+                                $title = "Habilitar";
+                                $accion = "A";
+                            }?>
+                            <span title="<?= $title; ?>" style="cursor: pointer" class="glyphicon glyphicon-<?= $icono;?>"></span>
+                        </td>
+                        <td class="text-center">
+                            <?php
+                            if($value->estado_usu || $value->estado_rol)
+                            {
+                                $icono = 'ok';
+                                $title = "Deshabilitar";
+                                $accion = "D";
+                            }
+                            else
+                            {
+                                $icono = 'remove';
+                                $title = "Habilitar";
+                                $accion = "A";
+                            }
+
+                            if($value->estado_rol)
+                            {
+                                echo '<span style="cursor: pointer" class="glyphicon glyphicon-'.$icono.'"></span>';
+                            }
+                            else
+                            {
+                                echo '<a href="'.BASE_URL.'permisos/actionEditar/'.$this->usuarios->id.'/'.$this->usuarios->id_rol.'/'.$value->id_per.'/'.$accion.'">
+                                <span title="'.$title.'" style="cursor: pointer" class="glyphicon glyphicon-'.$icono.'"></span></a>';
+                            }                        
+                            ?>                        
+                        </td>
+                    </tr>
+                    <?php                 
+                    }?>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group col-md-12">            
+            <a href="<?= BASE_URL;?>permisos" class="btn btn-primary col-md-offset-5" role="button">Volver</a>
+        </div>
+        
+        <?php 
+            if(isset($this->msg))
+            {?>
+            <script id="msgModal">
+                ejecutarModal("<?= $this->msg;?>","Editar Permisos",{label: "Ok"});
+            </script>
+            <?php
+            }
+        ?>     
+    </div>
+    <div class="col-md-4"></div>
+</div>
