@@ -6,10 +6,10 @@ class Roles extends ActiveRecord\Model
 	static $table_name = 'roles';
 
 	static $has_many = array(
-		array('roles_usuarios'),
-		array('usuarios','through' => 'roles_usuarios'),
 		array('permisos_roles'),
-		array('permisos','through' => 'permisos_roles')
+		array('permisos','through' => 'permisos_roles'),
+		array('roles_usuarios'),
+		array('usuarios','through' => 'roles_usuarios')
 	);
 
 	public function listarRoles()

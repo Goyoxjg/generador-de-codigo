@@ -24,7 +24,7 @@ def recorrerEstrucutra(base,nodos):
 				crearCarpeta(base+"/"+nodo)
 				recorrerEstrucutra(base+"/"+nodo , nodos[nodo])
 				
-			
+				
 		else:			
 			crearCarpeta(base+"/"+nodo)
 			print "creando carpeta "+base+"/"+nodo+"/"		
@@ -114,16 +114,20 @@ try:
 	ruta_core = "core/"	
 	ruta_destino = "www/"
 	print "Copiando librerias existentes..."
-	for elemento in os.listdir(ruta_core):
+	for elemento in os.listdir(ruta_core):				
 		
-		ori = ruta_core+elemento+"/"
-		des = ruta_destino+elemento+"/"
-		
-		
-		if os.path.exists(des):			
-			shutil.rmtree(des)
-			
-		shutil.copytree(ori,des)		
+		if os.path.isfile(ruta_core+elemento):
+			ori = ruta_core+elemento
+			des = ruta_destino+elemento
+			if os.path.isfile(ori):
+				shutil.copy(ori,des)				
+		else:
+			ori = ruta_core+elemento+"/"
+			des = ruta_destino+elemento+"/"					
+			if os.path.exists(des):			
+				shutil.rmtree(des)
+			if os.path.isdir(ori):
+				shutil.copytree(ori,des)				
 	
 	host = "localhost"
 	dbname = "framework"
@@ -131,12 +135,12 @@ try:
 	passwd = "postgres"
 		
 	connBD = baseDatos(host,dbname,user,passwd)	
+	boostrap = Boostrap()
 	
 	
 	crearEstructura()
 	tablas = connBD.leerTablas()
-	
-	
+	totalVistas = 0
 	
 	for tabla in tablas:				
 		
@@ -144,26 +148,94 @@ try:
 		nl = '\n'
 		tab = '\t'			
 		
-		nombre_modelo = tabla[0].capitalize()
+		nombreModelo = tabla[0].capitalize()
 				
-		archivo = open("www/models/"+nombre_modelo+'.php','w')	
+		modelo = open("www/models/"+nombreModelo+'.php','w')	
+		
+		dirView = "www/view/"+tabla[0]+"/"
+		if not os.path.exists(dirView):
+			os.makedirs(dirView)		
+			
+		totalCampos = connBD.leerCamposTablas(tabla[0])
+		
+		while totalVistas < 4:
+			if totalVistas == 3:	
+				#print "creando vista Agregar, %s"% totalVistas
+				vistaAgregar = open(dirView+'agregar.phtml','w')	
+				htmlAgregar = ""				
+				htmlAgregar += boostrap.agregarFila()
+				htmlAgregar += boostrap.abrirCol('8','2')
+				htmlAgregar += boostrap.abrirFormulario(tabla[0]
+				,"Agregar")
+				htmlAgregar += boostrap.agregarTituloFormulario("Agregar",nombreModelo)
+				
+				camposColumna = 0
+				for campo in totalCampos:
+					if camposColumna == 0:
+						htmlAgregar += boostrap.abrirFila()
 					
+					
+					#print campo
+					nombreCampo = campo[3]
+					isNull = campo[6]
+					tipoCampo = campo[7]
+					maxLen = campo[8]									
+					
+					#print "campo: %s, tipo: %s, isNull: %s, maxLen: %s" % (nombreCampo, tipoCampo, isNull, maxLen)
+					
+					if tipoCampo == "character" or tipoCampo == "integer" or tipoCampo == "time without time zone":
+						htmlAgregar += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
+					#elif :
+						#tipo = "number"
+								
+					
+					if campo[4]:
+						campoSerial = campo[5]
+					
+					
+					if camposColumna == 4:
+						htmlAgregar += boostrap.cerrarFila()
+						camposColumna = 0
+						
+					camposColumna = camposColumna+1
+				
+				#print "Son %s campos"% len(totalCampos)
+				#print "El mod: %s" % (len(totalCampos)/2)
+				
+				htmlAgregar += boostrap.cerrarFormulario()
+				htmlAgregar += boostrap.cerrarCol()
+				
+				
+			elif totalVistas == 2:
+				#print "creando vista Consultar, %s"% totalVistas
+				vistaConsultar = open(dirView+'conusltar.phtml','w')	
+				htmlConsultar = ""
+			elif totalVistas == 1:
+				#print "creando vista Editar, %s"% totalVistas
+				vistaEditar = open(dirView+'editar.phtml','w')	
+				htmlEditar = ""
+			elif totalVistas == 0:
+				#print "creando vista Listar, %s"% totalVistas
+				vistaLista = open(dirView+'lista.phtml','w')	
+				htmlLista = ""
+				
+			totalVistas = totalVistas+1			
+			
+		#break
+					
+		totalVistas = 0
 		campos = []		
 		
-		model = '<?php \nclass '+nombre_modelo+' extends ActiveRecord\Model\n{\n'
+		model = '<?php \nclass '+nombreModelo+' extends ActiveRecord\Model\n{\n'	
+		model += tab+'static $db = \''+tabla[1]+'\';'+nl*2			
+		model += tab+'static $table_name = \''+tabla[0]+'\';'+nl*2    											
+		constraint = connBD.consultarConstraint(tabla[0])		
 		
-		model += tab+'static $db = \''+tabla[1]+'\';'+nl*2
+		has_many = False				
+		c = len(constraint)
+		if c:			
+			model += tab+"static $has_many = array("+nl			
 			
-		model += tab+'static $table_name = \''+tabla[0]+'\';'+nl*2    					
-				
-		
-		constraint = connBD.consultarConstraint(tabla[0])
-		
-		has_many = False		
-		if len(constraint):			
-			model += tab+"static $has_many = array("+nl
-			
-			c = len(constraint)
 			for value in constraint:				
 				#nombre_constraint = value[1]
 				tabla_constraint = value[3]
@@ -177,7 +249,9 @@ try:
 				else:
 					model += nl+tab+");"+nl*2
 		
-		#http://recursospython.com/guias-y-manuales/os-shutil-archivos-carpetas/
+		#http://recursospython.com/guias-y-manuales/os-shutil-archivos-carpetas/		
+		
+		#print "\n totalCampos: %s "% len(totalCampos)
 		
 		for res in connBD.leerCamposTablas(tabla[0]):		
 					
@@ -200,15 +274,19 @@ try:
 			#campos.append(tmp)			
 		
 		
-		model += metodoListar(nombre_modelo)
-		model += metodoConsultar(nombre_modelo)
-		model += metodoAgregar(nombre_modelo)
-		model += metodoModificar(nombre_modelo)
-		model += metodoEliminar(nombre_modelo)
+		model += metodoListar(nombreModelo)
+		model += metodoConsultar(nombreModelo)
+		model += metodoAgregar(nombreModelo)
+		model += metodoModificar(nombreModelo)
+		model += metodoEliminar(nombreModelo)
 		
 		model += nl+'}'+nl+'?>'
 		
-		archivo.write(model)
+		modelo.write(model)
+		vistaAgregar.write(htmlAgregar)
+		vistaConsultar.write(htmlConsultar)
+		vistaEditar.write(htmlEditar)
+		vistaLista.write(htmlLista)
 		#print campos
 		
 	
