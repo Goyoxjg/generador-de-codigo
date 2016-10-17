@@ -1,15 +1,34 @@
 <div class="row">
-													<div class="col-md-12">&nbsp;</div>
-												</div>
+	<div class="col-md-12">&nbsp;</div>
+</div>
 <div class="col-md-8 col-md-offset-2" >
-											?????5<form id="form" role="form" action="<?= BASE_URL;?>validaciones/actionAgregar/" method="POST">
-														<legend>Agregar Validaciones</legend>
-<div class="row" >
-																																		<div class="form-group control-group col-md-2">
-																			<label for="id_val" class="control-label">id_val</label>
-																					<div class="controls">
-																						<input type="number" class="form-control" name="Validaciones[id_val]" id="id_val" placeholder="Grado" autofocus>
-																			</div>
-																</div>
+	<form id="form" role="form" action="<?= BASE_URL;?>validaciones/actionAgregar/" method="POST">
+		<legend>Agregar Validaciones</legend>
+		<div class="row" >
+		2<div class="form-group control-group col-md-2">
+			<label for="id_val" class="control-label">id_val</label>
+			<div class="controls">
+				<input type="number" class="form-control" name="Validaciones[id_val]" id="id_val" placeholder="id_val">
+			</div>
+		</div>
+		2<div class="form-group control-group col-md-2">
+			<label for="nom_val" class="control-label">nom_val</label>
+			<div class="controls">
+				<input type="text" class="form-control" name="Validaciones[nom_val]" id="nom_val" placeholder="nom_val">
+			</div>
+		</div>
+		2<div class="form-group control-group col-md-2">
+			<label for="cod_att_val" class="control-label">cod_att_val</label>
+			<div class="controls">
+				<input type="text" class="form-control" name="Validaciones[cod_att_val]" id="cod_att_val" placeholder="cod_att_val">
+			</div>
+		</div>
+		2<div class="form-group control-group col-md-2">
+			<label for="cod_msg_val" class="control-label">cod_msg_val</label>
+			<div class="controls">
+				<input type="text" class="form-control" name="Validaciones[cod_msg_val]" id="cod_msg_val" placeholder="cod_msg_val">
+			</div>
+		</div>
+</div>
 </form>
 </div>

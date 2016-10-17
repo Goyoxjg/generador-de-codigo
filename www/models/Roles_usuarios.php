@@ -7,9 +7,9 @@ class Roles_usuarios extends ActiveRecord\Model
 
 	static $has_many = array(
 		array('roles_usuarios'),
-		array('roles','through' => 'roles_usuarios'),
+		array('usuarios','through' => 'roles_usuarios'),
 		array('roles_usuarios'),
-		array('usuarios','through' => 'roles_usuarios')
+		array('roles','through' => 'roles_usuarios')
 	);
 
 	public function listarRoles_usuarios()

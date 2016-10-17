@@ -7,9 +7,9 @@ class Permisos_usuarios extends ActiveRecord\Model
 
 	static $has_many = array(
 		array('permisos_usuarios'),
-		array('permisos','through' => 'permisos_usuarios'),
+		array('usuarios','through' => 'permisos_usuarios'),
 		array('permisos_usuarios'),
-		array('usuarios','through' => 'permisos_usuarios')
+		array('permisos','through' => 'permisos_usuarios')
 	);
 
 	public function listarPermisos_usuarios()
