@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #import psycopg2, psycopg2.extras
+import re
 
 class Boostrap:
 
@@ -12,12 +13,9 @@ class Boostrap:
 		self.tipoFormulario = ''
 
 	def Tab(self, accion=None):				
-		#print "Accion: %s"% accion
 		if accion == "+":						
-			#print "+"	
 			self.numTab = self.numTab + 1		
 		elif accion == "-":
-			#print "-"	
 			self.numTab = self.numTab - 1						
 		
 		
@@ -25,9 +23,6 @@ class Boostrap:
 			self.tab = str(self.numTab * '\t')
 		else:				
 			self.tab = ''
-			
-		#print "self.numTab: %s "% self.numTab
-		#print str(self.tab)+"|"
 		return str(self.tab)
 		
 	def getTab(self):
@@ -58,17 +53,14 @@ class Boostrap:
 			tipoCampo = "checkbox"
 
 		html = ''
-		if tipoCampo == "text" or tipoCampo == "number" or tipoCampo == "date":			
-			#self.setTab((self.getTab()-self.getTab()))
-			html +=self.Tab()
-			html+=str(self.getTab())
+		if tipoCampo == "text" or tipoCampo == "number" or tipoCampo == "date":						
+			html+=self.Tab()			
 			html +='<div class="form-group control-group col-md-'+str(cel)+'">'+self.nuevaLinea()+self.Tab('+')
 			html +='<label for="'+id+'" class="control-label">'+id+'</label>'+self.nuevaLinea()+self.Tab()
 			html +='<div class="controls">'+self.nuevaLinea()+self.Tab('+')
 			html +='<input type="'+tipoCampo+'" class="form-control" name="'+controlador+'['+id+']" id="'+id+'" placeholder="'+id+'">'+self.nuevaLinea()+self.Tab('-')
 			html +='</div>'+self.nuevaLinea()+self.Tab('-')
-			html +='</div>'+self.nuevaLinea()
-			#html +=self.Tab()
+			html +='</div>'+self.nuevaLinea()			
 		elif tipoCampo == "checkbox":
 			html +=''
 		#elif tipo == "radio":
@@ -83,54 +75,81 @@ class Boostrap:
 		html=''
 		return html
 
-	def abrirCol(self, celdas='4' , offset='4'):		
-		html='<div class="col-md-'+celdas+' col-md-offset-'+offset+'" >'+self.nuevaLinea()+self.Tab('+')
+	def crearCol(self, contenido, celdas='4' , offset='4', tab=1):		
+		tmp = (tab-1)	
+		tab = (tab * '\t')		
+		tabF= (tmp * '\t')
+		
+		html='<div class="col-md-'+celdas+' col-md-offset-'+offset+'" >'+self.nuevaLinea()+tab
+		html+=contenido
+		html+=tabF
+		html+='</div>\n'
 		#print html
 		return html
 
-	def abrirFila(self):
-		html='<div class="row" >'+self.nuevaLinea()
+	def crearFila(self, contenido):
+		html= '<div class="row" >\n\t'
+		html+=contenido
+		html+='</div>\n\t'
 		#print html
-		return html
-
-	def cerrarFila(self):
-		#print "self.getTab(): %s" % self.getTab()
-		#self.setTab((self.getTab()-3))
-		self.Tab('-')
-		html=self.Tab('-')+'</div>'+self.nuevaLinea()
 		return html
 	
-	def cerrarCol(self):
-		html=+self.Tab('-')+'</div>'+self.nuevaLinea()+"cerrarCol"
-		#print html
-		return html
-
-	def abrirFormulario(self, controlador, metodo, arg=None):
+	def crearFormulario(self,contenido, tab, controlador, metodo, arg=None):
 		if arg != None:
 			argumentos = '<?= $this->'+controlador+'->'+arg+';?>'
 		else:
-			argumentos = ''
-	
-		html= '<form id="form" role="form" action="<?= BASE_URL;?>'+controlador+'/action'+metodo+'/'+argumentos+'" method="POST">'+self.nuevaLinea()+self.Tab('+')
+			argumentos = ''				
+		
+		
+		tmp = (tab-1)	
+		tab = (tab * '\t')		
+		tabF= (tmp * '\t')
+		contenido = re.sub('[<]', tab+'<', contenido)
+		contenido = re.sub('\t\t\t</label>', '</label>', contenido)
+		contenido = re.sub('\t\t\t</legend>', '</legend>', contenido)
+		contenido = re.sub('\t\t\t</button>', '</button>', contenido)		
+		contenido = re.sub('"\t\t\t<?=', '"<?=', contenido)		
+		contenido = re.sub('\t\t\t</a>', '</a>', contenido)		
+		
+		
+		t = self.getTab()
+		html= '<form id="form" role="form" action="<?= BASE_URL;?>'+controlador+'/action'+metodo+'/'+argumentos+'" method="POST">'+self.nuevaLinea()
+		html+=contenido		
+		#self.setTab(t)
+		
+		html+=tabF
+		html+='</form>'+self.nuevaLinea()
 		#print html
 		return html
-
-	def cerrarFormulario(self):		
-		html= '</form>'+self.nuevaLinea()
-		#html += self.Tab(0)
-		return html
+	
 
 	def agregarTituloFormulario(self, metodo, controlador):
-		#print "\n\n Tab: %s \n\n"% self.tab
-		
+		#print "\n\n Tab: %s \n\n"% self.tab		
 		html='<legend>'+metodo+' '+controlador+'</legend>'+self.nuevaLinea()
-		html+=self.Tab()
+		#html+=self.Tab('+')
 		return html
 
+	def agregarBotonera(self,controlador, metodo, clase="primary"):
+		html = '<div class="row">\n\t'
+		html +='<div class="col-md-12 col-md-offset-0" >\n\t\t'
+		html +='<button type="submit" class="btn btn-'+clase+'" role="button">'+metodo+'</button>\n\t\t'
+		html +='<a href="<?= BASE_URL;?>'+controlador+'/action'+metodo+'/" class="btn btn-'+clase+' col-md-offset-1"  role="button">Volver</a>\n\t'
+		html += '</div>\n'
+		html += '</div>\n'
+		return html
+		
+	
+	def agregarVolver(self,controlador, metodo, text="Volver", clase="primary"):
+		html = '<div class="row">\n\t'
+		html +='<div class="col-md-12 col-md-offset-0" >\n\t\t'		
+		html +='<a href="<?= BASE_URL;?>'+controlador+'/action'+metodo+'/" class="btn btn-'+clase+' col-md-offset-1"  role="button">Volver</a>\n\t'
+		html += '</div>\n'
+		html += '</div>\n'
+		return html
 
 	"""
 	<form role="form" method="POST" action="<?= BASE_URL;?>grados/actionEditar/<?= $this->grado->id_gra;?>">
-	<form id="form" role="form" action="<?= BASE_URL;?>grados/actionAgregar" method="POST">
+	<form id="form" role="form" action="<?= BASE_URL;?>" method="POST">
 
 	</form>
 
@@ -155,3 +174,4 @@ class Boostrap:
 	}
 	?>
 	"""
+

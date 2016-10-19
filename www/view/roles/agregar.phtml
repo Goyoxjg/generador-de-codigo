@@ -1,21 +1,23 @@
 <div class="row">
 	<div class="col-md-12">&nbsp;</div>
 </div>
-<div class="col-md-8 col-md-offset-2" >
-	<form id="form" role="form" action="<?= BASE_URL;?>roles/actionAgregar/" method="POST">
-		<legend>Agregar Roles</legend>
-		<div class="row" >
-		2<div class="form-group control-group col-md-2">
-			<label for="id" class="control-label">id</label>
-			<div class="controls">
-				<input type="number" class="form-control" name="Roles[id]" id="id" placeholder="id">
+<div class="row" >
+	<div class="col-md-8 col-md-offset-2" >
+		<form id="form" role="form" action="<?= BASE_URL;?>roles/actionAgregar/" method="POST">
+			<legend>Agregar Roles</legend>
+			<div class="form-group control-group col-md-2">
+				<label for="nom_rol" class="control-label">nom_rol</label>
+				<div class="controls">
+					<input type="text" class="form-control" name="Roles[nom_rol]" id="nom_rol" placeholder="nom_rol">
+				</div>
 			</div>
-		</div>
-		2<div class="form-group control-group col-md-2">
-			<label for="nom_rol" class="control-label">nom_rol</label>
-			<div class="controls">
-				<input type="text" class="form-control" name="Roles[nom_rol]" id="nom_rol" placeholder="nom_rol">
+			<div class="row">
+				<div class="col-md-12 col-md-offset-0" >
+					<button type="submit" class="btn btn-primary" role="button">Agregar</button>
+					<a href="			<?= BASE_URL;?>roles/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
+				</div>
 			</div>
-		</div>
-</form>
+		</form>
+	</div>
 </div>
+	

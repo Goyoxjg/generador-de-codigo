@@ -1,0 +1,32 @@
+<div class="row" >
+<div class="col-md-8 col-md-offset-2" >
+		<form id="form" role="form" action="<?= BASE_URL;?>origen_campos/actionAgregar/" method="POST">
+		<legend>Agregar Origen_campos</legend>
+		<div class="form-group control-group col-md-2">
+			<label for="id" class="control-label">id</label>
+			<div class="controls">
+				<input type="number" class="form-control" name="Origen_campos[id]" id="id" placeholder="id">
+			</div>
+		</div>
+		<div class="form-group control-group col-md-2">
+			<label for="nombre_campo" class="control-label">nombre_campo</label>
+			<div class="controls">
+				<input type="text" class="form-control" name="Origen_campos[nombre_campo]" id="nombre_campo" placeholder="nombre_campo">
+			</div>
+		</div>
+		<div class="form-group control-group col-md-2">
+			<label for="controlador" class="control-label">controlador</label>
+			<div class="controls">
+				<input type="text" class="form-control" name="Origen_campos[controlador]" id="controlador" placeholder="controlador">
+			</div>
+		</div>
+		<div class="form-group control-group col-md-2">
+			<label for="metodo" class="control-label">metodo</label>
+			<div class="controls">
+				<input type="text" class="form-control" name="Origen_campos[metodo]" id="metodo" placeholder="metodo">
+			</div>
+		</div>
+	</form>
+</div>
+</div>
+	

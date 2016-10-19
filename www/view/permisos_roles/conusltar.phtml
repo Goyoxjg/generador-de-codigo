@@ -1,0 +1,34 @@
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-8 col-md-offset-2" >
+		<form id="form" role="form" action="<?= BASE_URL;?>/action/" method="POST">
+			<legend>Consultar Permisos_roles</legend>
+			<div class="form-group control-group col-md-2">
+				<label for="id_rol" class="control-label">id_rol</label>
+				<div class="controls">
+					<input type="number" class="form-control" name="Permisos_roles[id_rol]" id="id_rol" placeholder="id_rol">
+				</div>
+			</div>
+			<div class="form-group control-group col-md-2">
+				<label for="id_per" class="control-label">id_per</label>
+				<div class="controls">
+					<input type="number" class="form-control" name="Permisos_roles[id_per]" id="id_per" placeholder="id_per">
+				</div>
+			</div>
+			<div class="form-group control-group col-md-2">
+				<label for="fec_per_rol" class="control-label">fec_per_rol</label>
+				<div class="controls">
+					<input type="date" class="form-control" name="Permisos_roles[fec_per_rol]" id="fec_per_rol" placeholder="fec_per_rol">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-md-offset-0" >
+					<a href="			<?= BASE_URL;?>permisos_roles/actionConsultar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+	

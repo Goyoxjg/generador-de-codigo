@@ -158,59 +158,110 @@ try:
 		if not os.path.exists(dirView):
 			os.makedirs(dirView)
 
-		totalCampos = connBD.leerCamposTablas(tabla[0])
-		
+		totalCampos = connBD.leerCamposTablas(tabla[0])		
 		while totalVistas < 4:
-			if totalVistas == 3:
-				#print "creando vista Agregar, %s"% totalVistas
+			boostrap.setTab(0)
+			if totalVistas == 3:				
 				vistaAgregar = open(dirView+'agregar.phtml','w')
-				htmlAgregar = ""
-				htmlAgregar += boostrap.agregarFila()
-				htmlAgregar += boostrap.abrirCol('8','2')
-				htmlAgregar += boostrap.abrirFormulario(tabla[0],"Agregar")
-				htmlAgregar += boostrap.agregarTituloFormulario("Agregar",nombreModelo)
-
-				camposColumna = 0
-				for campo in totalCampos:
-					print camposColumna
-					
-					if camposColumna == 0:
-						htmlAgregar += boostrap.abrirFila()
-
-					#print campo
+				htmlAgregar = ""				
+				camposColumna = 0				
+				htmlCampos = boostrap.agregarTituloFormulario("Agregar",nombreModelo)
+				
+				for campo in totalCampos:					
 					nombreCampo = campo[3]
 					isNull = campo[6]
 					tipoCampo = campo[7]
 					maxLen = campo[8]
-
-					print "campo: %s, tipo: %s, isNull: %s, maxLen: %s" % (nombreCampo, tipoCampo, isNull, maxLen)
-									
-					if tipoCampo == "character varying" or tipoCampo == "integer" or tipoCampo == "time without time zone":
-						htmlAgregar += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
-					#elif :
-						#tipo = "number"
-
-					if campo[4]:
-						campoSerial = campo[5]
-
-					#print camposColumna
-					
-					if camposColumna == 3:						
-						htmlAgregar += boostrap.cerrarFila()						
+						
+					pk = False
+					patron = re.compile('nextval')
+					if campo[5]:					
+						if patron.match(campo[5]):
+							pk = True
+							
+					if pk == False:
+						if tipoCampo == "character varying" or tipoCampo == "integer" or tipoCampo == "time without time zone":
+							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
+						#elif :
+							#tipo = "number"
+						
+					if camposColumna == 3:											
 						camposColumna = -1
 					
-					camposColumna = camposColumna+1
-					
-				htmlAgregar += boostrap.cerrarFormulario()
-				htmlAgregar += boostrap.cerrarFila()
+					camposColumna = camposColumna+1					
+								
+				htmlBotones =boostrap.agregarBotonera(tabla[0], "Agregar")								
+				htmlCampos += htmlBotones						
+				htmlForm = boostrap.crearFormulario(htmlCampos,3,tabla[0],"Agregar")							
+				htmlAgregar += boostrap.crearCol(htmlForm, '8','2', 2)				
+				htmlAgregar = boostrap.agregarFila()+boostrap.crearFila(htmlAgregar)
 			elif totalVistas == 2:
 				#print "creando vista Consultar, %s"% totalVistas
 				vistaConsultar = open(dirView+'conusltar.phtml','w')
-				htmlConsultar = ""
+				htmlConsultar = ""				
+				camposColumna = 0								
+				htmlCampos = boostrap.agregarTituloFormulario("Consultar",nombreModelo)
+				for campo in totalCampos:					
+					nombreCampo = campo[3]
+					isNull = campo[6]
+					tipoCampo = campo[7]
+					maxLen = campo[8]
+									
+					pk = False
+					patron = re.compile('nextval')
+					if campo[5]:					
+						if patron.match(campo[5]):
+							pk = True
+							
+					if pk == False:
+						if tipoCampo == "character varying" or tipoCampo == "integer" or tipoCampo == "time without time zone":
+							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
+						#elif :
+							#tipo = "number"
+					
+					if camposColumna == 3:											
+						camposColumna = -1
+					
+					camposColumna = camposColumna+1
+				
+				htmlBotones =boostrap.agregarVolver(tabla[0], "Consultar")								
+				htmlCampos += htmlBotones						
+				htmlForm = boostrap.crearFormulario(htmlCampos,3,'',"")							
+				htmlConsultar += boostrap.crearCol(htmlForm, '8','2', 2)				
+				htmlConsultar = boostrap.agregarFila()+boostrap.crearFila(htmlConsultar)
 			elif totalVistas == 1:
 				#print "creando vista Editar, %s"% totalVistas
 				vistaEditar = open(dirView+'editar.phtml','w')
 				htmlEditar = ""
+				camposColumna = 0				
+				htmlCampos = boostrap.agregarTituloFormulario("Editar",nombreModelo)
+				for campo in totalCampos:					
+					nombreCampo = campo[3]
+					isNull = campo[6]
+					tipoCampo = campo[7]
+					maxLen = campo[8]
+									
+					pk = False
+					patron = re.compile('nextval')
+					if campo[5]:					
+						if patron.match(campo[5]):
+							pk = True
+							
+					if pk == False:
+						if tipoCampo == "character varying" or tipoCampo == "integer" or tipoCampo == "time without time zone":
+							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
+						#elif :
+							#tipo = "number"
+					
+					if camposColumna == 3:											
+						camposColumna = -1
+					
+					camposColumna = camposColumna+1
+				htmlBotones =boostrap.agregarBotonera(tabla[0], "Editar")								
+				htmlCampos += htmlBotones						
+				htmlForm = boostrap.crearFormulario(htmlCampos,3,tabla[0],"Editar")							
+				htmlEditar += boostrap.crearCol(htmlForm, '8','2', 2)				
+				htmlEditar = boostrap.agregarFila()+boostrap.crearFila(htmlEditar)
 			elif totalVistas == 0:
 				#print "creando vista Listar, %s"% totalVistas
 				vistaLista = open(dirView+'lista.phtml','w')
@@ -285,10 +336,10 @@ try:
 		vistaLista.write(htmlLista)
 		#print campos
 		
-		print "Tab: %s" % boostrap.getTab()
+		#print "Tab: %s" % boostrap.getTab()
 		if boostrap.getTab() != 0:
 			boostrap.setTab(0)
-		print "Tab: %s" % boostrap.getTab()
+		#print "Tab: %s" % boostrap.getTab()
 		#break
 
 except ValueError:
