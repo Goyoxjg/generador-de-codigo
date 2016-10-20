@@ -8,8 +8,7 @@ class indexController extends Controller
  
     public function index()
     {                    
-        $configuracion = Configuracion::consultarConfiguracion();
-        
+
         Session::set("nom_log", $configuracion->nom_log);        
         Session::set("nom_tem", $configuracion->nom_tem);
         Session::set("for_fec", $configuracion->for_fec);

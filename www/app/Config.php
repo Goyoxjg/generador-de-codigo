@@ -2,7 +2,7 @@
 /**
  * Base para cargar las demás vistas
  */ 
-define('BASE_URL', 'http://'.$_SERVER["SERVER_NAME"].'/framework1.0/www/');
+define('BASE_URL', 'http://'.$_SERVER["SERVER_NAME"].'/prueba/www/');
 /**
  * Controlador por default
  */ 
