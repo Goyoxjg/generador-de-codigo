@@ -29,8 +29,6 @@ def recorrerEstrucutra(base,nodos):
 			crearCarpeta(base+"/"+nodo)
 			print "creando carpeta "+base+"/"+nodo+"/"
 
-
-
 def crearEstructura():
 	nodos = {"www":{"app" : None,"controllers":None,"libs":None,"models":None,"public":["css","js","img"],"views":{"layout":{"default":["css","js","img"]}}}}
 	for nodo in nodos:
@@ -39,62 +37,6 @@ def crearEstructura():
 
 nl = '\n'
 tab = '\t'
-
-def metodoListar(modelo):
-	cadena = ''
-	cadena += tab+'public function listar'+modelo+'()'+nl+tab
-	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
-	cadena += 'return '+modelo+'::find(\'all\');'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
-	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
-	return cadena
-
-def metodoAgregar(modelo):
-	cadena = ''
-	cadena += tab+'public function agregar'+modelo+'($data)'+nl+tab
-	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
-	cadena += 'return '+modelo+'::create($data);'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
-	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
-	return cadena
-
-def metodoConsultar(modelo):
-	cadena = ''
-	cadena += tab+'public function consultar'+modelo+'($id)'+nl+tab
-	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
-	cadena += 'return '+modelo+'::find($id);'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
-	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
-	return cadena
-
-def metodoModificar(modelo):
-	cadena = ''
-	cadena += tab+'public function modificar'+modelo+'($data)'+nl+tab
-	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
-	cadena += '$objeto = '+modelo+'::find($data[\'id\']);'+nl+tab*3+'return $objeto->update_attributes($data);'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
-	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
-	return cadena
-
-def metodoEliminar(modelo):
-	cadena = ''
-	cadena += tab+'public function eliminar'+modelo+'($id)'+nl+tab
-	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
-	cadena += '$objeto = '+modelo+'::find($id]);'+nl+tab*3+'return $objeto->delete();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
-	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
-	return cadena
-
-def metodoConsultarUltimo(modelo):
-	cadena = ''
-	cadena += tab+'public function consultarUltimo'+modelo+'()'+nl+tab
-	cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
-	cadena += 'return '+modelo+'::last();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
-	cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
-	return cadena
-
-
-def obtenerRutas(tmp):
-	if os.path.isdir(tmp):
-		return os.listdir(tmp)
-
-	return false
-
 
 try:
 	"""
@@ -139,20 +81,194 @@ try:
 	connBD = baseDatos(host,dbname,user,passwd)
 	boostrap = Boostrap()
 
+	def metodoListar(modelo):
+		cadena = ''
+		cadena += tab+'public function listar'+modelo+'()'+nl+tab
+		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
+		cadena += 'return '+modelo+'::find(\'all\');'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
+		return cadena
+
+	def metodoAgregar(modelo):
+		cadena = ''
+		cadena += tab+'public function agregar'+modelo+'($data)'+nl+tab
+		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
+		cadena += 'return '+modelo+'::create($data);'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
+		return cadena
+
+	def metodoConsultar(modelo):
+		cadena = ''
+		cadena += tab+'public function consultar'+modelo+'($id)'+nl+tab
+		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
+		cadena += 'return '+modelo+'::find($id);'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
+		return cadena
+
+	def metodoModificar(modelo):
+		cadena = ''
+		cadena += tab+'public function modificar'+modelo+'($data)'+nl+tab
+		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
+		cadena += '$objeto = '+modelo+'::find($data[\'id\']);'+nl+tab*3+'return $objeto->update_attributes($data);'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
+		return cadena
+
+	def metodoEliminar(modelo):
+		cadena = ''
+		cadena += tab+'public function eliminar'+modelo+'($id)'+nl+tab
+		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
+		cadena += '$objeto = '+modelo+'::find($id]);'+nl+tab*3+'return $objeto->delete();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
+		return cadena
+
+	def metodoConsultarUltimo(modelo):
+		cadena = ''
+		cadena += tab+'public function consultarUltimo'+modelo+'()'+nl+tab
+		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
+		cadena += 'return '+modelo+'::last();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
+		return cadena
+		
+	def metodoConstructor():
+		cadena = ''
+		cadena += tab+'public function __construct()'+nl+tab
+		cadena += '{'+nl+tab*3
+		cadena += 'parent::__construct();'+nl+tab
+		cadena += '}'+nl*2
+		return cadena
+		
+	def metodoIndex(controlador):
+		variable = controlador
+		modelo = controlador.capitalize()
+			
+		cadena = ''
+		cadena += tab+'public function index()'+nl+tab
+		cadena += '{'+nl+tab*2
+		cadena += '$'+variable+' = $this->'+modelo+'->listar'+modelo+'();'+nl+tab*2
+		cadena += '$this->_view->'+variable+' = '+variable+';'+nl+tab*2
+		cadena += '$this->_view->render(\'lista\');'+nl+tab
+		cadena += '}'+nl*2
+		return cadena
+		
+	def metodoActionAgregar(controlador):
+		variable = controlador
+		modelo = controlador.capitalize()
+		
+		cadena = ''
+		cadena += tab+'public function actionAgregar()'+nl+tab
+		cadena += '{'+nl+tab*2
+		cadena += 'if(count($this->data["'+variable+'"]) > 0)'+nl+tab*2
+		cadena += '{'+nl+tab*3
+		cadena += '$this->mensaje('+modelo+'::agregar'+modelo+'($this->data["'+variable+'"]) , "A" , "El '+variable+'", "El '+variable+' que intenta registrar ya existe." , "alert-warning") ;'+nl+tab*2	
+		cadena += '}'+nl+tab*2	
+		#~ cadena += '$this->_view->'+variable+' = '+variable+';'+nl+tab*2
+		cadena += '$this->_view->render(\'agregar\');'+nl+tab
+		cadena += '}'+nl*2
+		return cadena
+		
+	def metodoActionConsultar(controlador):
+		variable = controlador
+		modelo = controlador.capitalize()
+				
+		cadena = ''
+		cadena += tab+'public function actionConsultar($id)'+nl+tab
+		cadena += '{'+nl+tab*2			
+		cadena += '$this->_view->'+variable+' = '+modelo+'::consultar'+modelo+'($id);'+nl+tab*2
+		cadena += '$this->_view->render(\'consultar\');'+nl+tab
+		cadena += '}'+nl*2
+		return cadena
+		
+	def metodoActionEditar(controlador):
+		variable = controlador
+		modelo = controlador.capitalize()
+	
+		resultado = connBD.consultarPkTabla(tabla[0])		
+		campoPK = resultado[0][0]
+		
+		cadena = ''
+		cadena += tab+'public function actionEditar($id)'+nl+tab
+		cadena += '{'+nl+tab*2
+		cadena += 'if(count($this->data["'+variable+'"]) > 0)'+nl+tab*2
+		cadena += '{'+nl+tab*3
+		cadena += '$this->data["'+variable+'"]["'+campoPK+'"] = $id;'
+		cadena += '$this->mensaje('+modelo+'::modificar'+modelo+'($this->data["'+variable+'"]) , "A" , "El '+variable+'", "Error al realizar la edición" , "alert-warning") ;'+nl+tab*2	
+		cadena += '}'+nl+tab*2	
+		cadena += '$this->_view->'+variable+' = '+variable+';'+nl+tab*2
+		cadena += '$this->_view->render(\'editar\');'+nl+tab
+		cadena += '}'+nl*2
+		return cadena
+		
+	def metodoActionEliminar(controlador):
+		variable = controlador
+		modelo = controlador.capitalize()
+			
+		cadena = ''
+		cadena += tab+'public function actionEliminar($id)'+nl+tab
+		cadena += '{'+nl+tab*2
+		cadena += '$this->mensaje('+modelo+'::eliminar'+modelo+'($id), "E", "'+variable+'");'+nl+tab*2
+		cadena += '$this->_view->'+variable+' = '+modelo+'::listar'+modelo+'();'+nl+tab*2
+		cadena += '$this->_view->render(\'lista\');'+nl+tab
+		cadena += '}'+nl*2	
+		return cadena			
+		
+	def agregarDataTable(controlador):
+		variable = controlador		
+			
+		cadena = '<?php\nif($this->'+variable+' > 0)\n{?>\n<script>\n\t'
+		cadena += '$(document).ready(function() {'+nl+tab*2
+		cadena += '$(".table").dataTable(dataTables);'+nl+tab		
+		cadena += '});\n</script>\n<?php\n}?>'+nl
+		#print cadena
+		return cadena
+		
+		"""
+		<?php
+		if($this->usuarios > 0)    
+		{?>
+		<script>
+			$(document).ready(function() {                
+				$('.table').dataTable(dataTables);        
+			});    
+		</script>
+		<?php
+		}?>
+		"""
+
+	def obtenerRutas(tmp):
+		if os.path.isdir(tmp):
+			return os.listdir(tmp)
+
+		return false
+
 
 	crearEstructura()
 	tablas = connBD.leerTablas()
 	totalVistas = 0
 
+	print "Generando modelos , vistas y controladores de las tablas"
 	for tabla in tablas:
 
-		print tabla[0]
+		#~ print tabla[0]
 		nl = '\n'
 		tab = '\t'
-
-		nombreModelo = tabla[0].capitalize()
-
-		modelo = open("www/models/"+nombreModelo+'.php','w')
+				
+		if re.search('_', tabla[0]):
+			#~ s.split(' ')
+			tmp = tabla[0].split('_')	
+			nombreModelo = ''
+			nombreControlador = ''
+			for parte in tmp:
+				nombreModelo += parte.capitalize()						
+				nombreControlador += parte
+		else:
+			nombreModelo = tabla[0].capitalize()
+			nombreControlador = tabla[0] 	
+					
+		nombreControlador = nombreControlador+"Controller"
+		modelo = open("www/models/"+nombreModelo+'.php','w')		
+		
+		
+		controlador = open("www/controllers/"+nombreControlador+'.php','w')		
 
 		dirView = "www/view/"+tabla[0]+"/"
 		if not os.path.exists(dirView):
@@ -181,7 +297,7 @@ try:
 							
 					if pk == False:
 						if tipoCampo == "character varying" or tipoCampo == "integer" or tipoCampo == "time without time zone":
-							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
+							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,tabla[0],2)
 						#elif :
 							#tipo = "number"
 						
@@ -194,10 +310,10 @@ try:
 				htmlCampos += htmlBotones						
 				htmlForm = boostrap.crearFormulario(htmlCampos,3,tabla[0],"Agregar")							
 				htmlAgregar += boostrap.crearCol(htmlForm, '8','2', 2)				
-				htmlAgregar = boostrap.agregarFila()+boostrap.crearFila(htmlAgregar)
+				htmlAgregar = boostrap.agregarFila()+boostrap.crearFila(htmlAgregar)+boostrap.agregarFuncionMensaje(tabla[0],"Agregar")
 			elif totalVistas == 2:
 				#print "creando vista Consultar, %s"% totalVistas
-				vistaConsultar = open(dirView+'conusltar.phtml','w')
+				vistaConsultar = open(dirView+'consultar.phtml','w')
 				htmlConsultar = ""				
 				camposColumna = 0								
 				htmlCampos = boostrap.agregarTituloFormulario("Consultar",nombreModelo)
@@ -215,7 +331,7 @@ try:
 							
 					if pk == False:
 						if tipoCampo == "character varying" or tipoCampo == "integer" or tipoCampo == "time without time zone":
-							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
+							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,tabla[0],2)
 						#elif :
 							#tipo = "number"
 					
@@ -249,7 +365,7 @@ try:
 							
 					if pk == False:
 						if tipoCampo == "character varying" or tipoCampo == "integer" or tipoCampo == "time without time zone":
-							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,nombreModelo,2)
+							htmlCampos += boostrap.agregarInput(tipoCampo,nombreCampo,tabla[0],2)
 						#elif :
 							#tipo = "number"
 					
@@ -261,12 +377,22 @@ try:
 				htmlCampos += htmlBotones						
 				htmlForm = boostrap.crearFormulario(htmlCampos,3,tabla[0],"Editar")							
 				htmlEditar += boostrap.crearCol(htmlForm, '8','2', 2)				
-				htmlEditar = boostrap.agregarFila()+boostrap.crearFila(htmlEditar)
+				htmlEditar = boostrap.agregarFila()+boostrap.crearFila(htmlEditar)+boostrap.agregarFuncionMensaje(tabla[0],"Editar")
 			elif totalVistas == 0:
 				#print "creando vista Listar, %s"% totalVistas
 				vistaLista = open(dirView+'lista.phtml','w')
 				htmlLista = ""
-
+										
+				htmlTabla = boostrap.agregarTablaLista(tabla[0], connBD, 2)
+				
+				htmlLista += boostrap.crearCol(htmlTabla, '6','3', 0)
+				
+				htmlLista =  boostrap.crearFila(htmlLista,1)
+				htmlLista += boostrap.agregarBotonAgregar(tabla[0])				
+				htmlLista += boostrap.agregarFuncionMensaje(tabla[0])
+				htmlLista = agregarDataTable(tabla[0])+ boostrap.agregarFila() + htmlLista
+				
+				
 			totalVistas = totalVistas+1
 		
 
@@ -328,7 +454,21 @@ try:
 		model += metodoEliminar(nombreModelo)
 
 		model += nl+'}'+nl+'?>'
-
+		
+		
+		controller = '<?php \nclass '+nombreControlador+' extends Controller\n{\n'
+		
+		controller += metodoConstructor()
+		controller += metodoIndex(tabla[0])
+		controller += metodoActionAgregar(tabla[0])
+		controller += metodoActionConsultar(tabla[0])
+		controller += metodoActionEditar(tabla[0])
+		controller += metodoActionEliminar(tabla[0])
+		
+		controller += nl+'}'+nl+'?>'
+		
+		
+		controlador.write(controller)
 		modelo.write(model)
 		vistaAgregar.write(htmlAgregar)
 		vistaConsultar.write(htmlConsultar)

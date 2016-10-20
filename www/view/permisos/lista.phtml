@@ -1,0 +1,63 @@
+<?php
+if($this->permisos > 0)
+{?>
+<script>
+	$(document).ready(function() {
+		$(".table").dataTable(dataTables);
+	});
+</script>
+<?php
+}?>
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-6 col-md-offset-3" >
+		<table class="table table-condensed">
+			<thead>
+				<th class="text-center">id_per</th>
+				<th class="text-center">fk_per</th>
+				<th class="text-center">nom_per</th>
+				<th class="text-center">Opciones</th>
+			</thead>
+			<tbody>
+			<?php
+				foreach ($this->permisos as $key => $value)
+				{?>
+				<tr>
+					<td class="text-center"><?= $value->id_per;?></td>
+					<td class="text-center"><?= $value->fk_per;?></td>
+					<td class="text-center"><?= $value->nom_per;?></td>
+					<td class="text-center">
+						<a href="<?= BASE_URL.'permisos/actionConsultar/'.$value->id_per;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+						<a href="<? BASE_URL.'permisos/actionEditar/'.$value->id_per;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						<a href="<? BASE_URL.'permisos/actionEliminar/'.$value->id_per;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+			<?php
+				}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<div class="row">
+	<div class="col-md-12" >
+		<a href="<?= BASE_URL;?>permisos/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Agregar</a>
+	</div>
+</div>
+<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>"," Permisos",{label: "Ok"});
+	</script>
+<?php
+}
+?>

@@ -8,52 +8,60 @@
 			<div class="form-group control-group col-md-2">
 				<label for="nom_usu" class="control-label">nom_usu</label>
 				<div class="controls">
-					<input type="text" class="form-control" name="Usuarios[nom_usu]" id="nom_usu" placeholder="nom_usu">
+					<input type="text" class="form-control" name="usuarios[nom_usu]" id="nom_usu" placeholder="nom_usu">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="ape_usu" class="control-label">ape_usu</label>
 				<div class="controls">
-					<input type="text" class="form-control" name="Usuarios[ape_usu]" id="ape_usu" placeholder="ape_usu">
+					<input type="text" class="form-control" name="usuarios[ape_usu]" id="ape_usu" placeholder="ape_usu">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="log_usu" class="control-label">log_usu</label>
 				<div class="controls">
-					<input type="text" class="form-control" name="Usuarios[log_usu]" id="log_usu" placeholder="log_usu">
+					<input type="text" class="form-control" name="usuarios[log_usu]" id="log_usu" placeholder="log_usu">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="pas_usu" class="control-label">pas_usu</label>
 				<div class="controls">
-					<input type="text" class="form-control" name="Usuarios[pas_usu]" id="pas_usu" placeholder="pas_usu">
+					<input type="text" class="form-control" name="usuarios[pas_usu]" id="pas_usu" placeholder="pas_usu">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="ema_usu" class="control-label">ema_usu</label>
 				<div class="controls">
-					<input type="text" class="form-control" name="Usuarios[ema_usu]" id="ema_usu" placeholder="ema_usu">
+					<input type="text" class="form-control" name="usuarios[ema_usu]" id="ema_usu" placeholder="ema_usu">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="tel_usu" class="control-label">tel_usu</label>
 				<div class="controls">
-					<input type="number" class="form-control" name="Usuarios[tel_usu]" id="tel_usu" placeholder="tel_usu">
+					<input type="number" class="form-control" name="usuarios[tel_usu]" id="tel_usu" placeholder="tel_usu">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="dir_usu" class="control-label">dir_usu</label>
 				<div class="controls">
-					<input type="text" class="form-control" name="Usuarios[dir_usu]" id="dir_usu" placeholder="dir_usu">
+					<input type="text" class="form-control" name="usuarios[dir_usu]" id="dir_usu" placeholder="dir_usu">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12 col-md-offset-0" >
+				<div class="col-md-12" >
 					<button type="submit" class="btn btn-primary" role="button">Agregar</button>
 					<a href="			<?= BASE_URL;?>usuarios/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
 				</div>
 			</div>
 		</form>
 	</div>
-</div>
-	
+		</div>
+	<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>","Agregar Usuarios",{label: "Ok"});
+	</script>
+<?php
+}
+?>

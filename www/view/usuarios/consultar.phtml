@@ -3,8 +3,8 @@
 </div>
 <div class="row" >
 	<div class="col-md-8 col-md-offset-2" >
-		<form id="form" role="form" action="<?= BASE_URL;?>usuarios/actionEditar/" method="POST">
-			<legend>Editar Usuarios</legend>
+		<form id="form" role="form" action="<?= BASE_URL;?>/action/" method="POST">
+			<legend>Consultar Usuarios</legend>
 			<div class="form-group control-group col-md-2">
 				<label for="nom_usu" class="control-label">nom_usu</label>
 				<div class="controls">
@@ -48,20 +48,11 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12" >
-					<button type="submit" class="btn btn-primary" role="button">Editar</button>
-					<a href="			<?= BASE_URL;?>usuarios/actionEditar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
+				<div class="col-md-12 col-md-offset-0" >
+					<a href="			<?= BASE_URL;?>usuarios/actionConsultar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
 				</div>
 			</div>
 		</form>
 	</div>
 		</div>
-	<?php
-if(isset($this->msg))
-{?>
-	<script id="msgModal">
-		ejecutarModal("<?= $this->msg;?>","Editar Usuarios",{label: "Ok"});
-	</script>
-<?php
-}
-?>
+	

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #import psycopg2, psycopg2.extras
+from modulos.GestorBD.gestorBaseDatos import*
 import re
 
 class Boostrap:
@@ -80,17 +81,26 @@ class Boostrap:
 		tab = (tab * '\t')		
 		tabF= (tmp * '\t')
 		
-		html='<div class="col-md-'+celdas+' col-md-offset-'+offset+'" >'+self.nuevaLinea()+tab
+		if offset == '0':		
+			html='<div class="col-md-'+celdas+'" >'+self.nuevaLinea()+tab
+		else:
+			html='<div class="col-md-'+celdas+' col-md-offset-'+offset+'" >'+self.nuevaLinea()+tab
+			
 		html+=contenido
 		html+=tabF
-		html+='</div>\n'
+		html+='</div>\n'+tab
 		#print html
 		return html
 
-	def crearFila(self, contenido):
-		html= '<div class="row" >\n\t'
+	def crearFila(self, contenido, tab=1):			
+		tmp = (tab-1)	
+		tab = (tab * '\t')		
+		tabF= (tmp * '\t')
+		
+		html= '<div class="row" >\n'+tab
 		html+=contenido
-		html+='</div>\n\t'
+		#html+=tabF
+		html+='</div>\n'+tab
 		#print html
 		return html
 	
@@ -131,9 +141,17 @@ class Boostrap:
 
 	def agregarBotonera(self,controlador, metodo, clase="primary"):
 		html = '<div class="row">\n\t'
-		html +='<div class="col-md-12 col-md-offset-0" >\n\t\t'
+		html +='<div class="col-md-12" >\n\t\t'
 		html +='<button type="submit" class="btn btn-'+clase+'" role="button">'+metodo+'</button>\n\t\t'
 		html +='<a href="<?= BASE_URL;?>'+controlador+'/action'+metodo+'/" class="btn btn-'+clase+' col-md-offset-1"  role="button">Volver</a>\n\t'
+		html += '</div>\n'
+		html += '</div>\n'
+		return html
+		
+	def agregarBotonAgregar(self,controlador, clase="primary"):
+		html = '\n<div class="row">\n\t'
+		html +='<div class="col-md-12" >\n\t\t'		
+		html +='<a href="<?= BASE_URL;?>'+controlador+'/actionAgregar/" class="btn btn-'+clase+' col-md-offset-1"  role="button">Agregar</a>\n\t'		
 		html += '</div>\n'
 		html += '</div>\n'
 		return html
@@ -146,32 +164,54 @@ class Boostrap:
 		html += '</div>\n'
 		html += '</div>\n'
 		return html
+		
+	def agregarTablaLista(self, controlador , connBD, tab):			
+		#~ print controlador
+		
+		tab = str(tab * '\t')
+						
+		resultado = connBD.consultarPkTabla(controlador)		
+		campoPK = resultado[0][0]
+			
+		html = tab+'<table class="table table-condensed">\n\t\t\t<thead>\n\t\t'+tab		
+		thead = ''
+		for res in connBD.leerCamposTablas(controlador):
+			column_name = res[3]
+			thead += '<th class="text-center">'+column_name+'</th>\n\t\t'+tab
+			
+		thead += '<th class="text-center">Opciones</th>\n\t'+tab
+		
+		html += thead+'</thead>\n\t\t\t<tbody>\n\t'+tab
+		html += '<?php\n\t\t\t\tforeach ($this->'+controlador+' as $key => $value)\n\t\t\t\t{?>\n\t\t'+tab
+		html += '<tr>\n\t\t\t'+tab
+		tbody = ''
 
-	"""
-	<form role="form" method="POST" action="<?= BASE_URL;?>grados/actionEditar/<?= $this->grado->id_gra;?>">
-	<form id="form" role="form" action="<?= BASE_URL;?>" method="POST">
+		for res in connBD.leerCamposTablas(controlador):
+			column_name = res[3]
+			tbody += '<td class="text-center"><?= $value->'+column_name+';?></td>\n\t\t\t'+tab
+						
+		
+		html += tbody
+		
+		html += '<td class="text-center">\n\t\t\t\t'+tab
+		html += '<a href="<?= BASE_URL.\''+controlador+'/actionConsultar/\'.$value->'+campoPK+';?>" class="btn btn-primary"  role="button">\n\t\t\t\t\t'+tab
+		html += '<span class="glyphicon glyphicon-search"></span>\n\t\t\t\t\t\t</a>\n\t\t\t\t'+tab
+		html += '<a href="<? BASE_URL.\''+controlador+'/actionEditar/\'.$value->'+campoPK+';?>" class="btn btn-primary"  role="button">\n\t\t\t\t\t'+tab
+		html += '<span class="glyphicon glyphicon-edit"></span>\n\t\t\t\t\t\t</a>\n\t\t\t\t'+tab
+		html += '<a href="<? BASE_URL.\''+controlador+'/actionEliminar/\'.$value->'+campoPK+';?>" class="btn btn-primary"  role="button">\n\t\t\t\t\t'+tab
+		html += '<span class="glyphicon glyphicon-trash"></span>\n\t\t\t\t\t\t</a>\n\t\t\t'+tab
+		html += '</td>\n\t\t'+tab
+		html += '</tr>\n\t'+tab
+		html += '<?php\n\t\t\t\t}?>\n\t\t\t</tbody>\n\t\t</table>\n\t'
+		return html
+		
+	def agregarFuncionMensaje(self, controlador , metodo=""):			
+		controlador = controlador.capitalize()
+		html = ''
+		html += '<?php\nif(isset($this->msg))\n{?>\n\t<script id="msgModal">\n\t\t'
+		html += 'ejecutarModal("<?= $this->msg;?>","'+metodo+' '+controlador+'",{label: "Ok"});\n\t'
+		html += '</script>\n<?php\n}\n?>'			
+		return html
 
-	</form>
-
-
-
-
-	<div class="row">
-		<div class="form-group col-md-12 col-md-offset-3 form-actions">
-			<button type="submit" class="btn btn-primary" role="button">Agregar</button>
-			<a href="<?= BASE_URL;?>grados" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
-		</div>
-	</div>
-
-
-	<?php
-	if(isset($this->msg))
-	{?>
-		<script id="msgModal">
-			ejecutarModal("<?= $this->msg;?>","Agregar Grado",{label: "Ok"});
-		</script>
-	<?php
-	}
-	?>
-	"""
+	
 

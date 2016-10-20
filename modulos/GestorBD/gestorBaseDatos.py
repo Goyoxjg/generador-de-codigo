@@ -55,3 +55,15 @@ class baseDatos:
 		#print "\n\n SQL: %s \n\n"% sql
 		
 		return self.consultar(sql)
+
+	def consultarPkTabla(self, tabla):
+		sql =  "SELECT /*tc.constraint_name, tc.constraint_schema || '.' || tc.table_name || '.' || kcu.column_name as physical_full_name, */ "
+		sql += "/*tc.constraint_schema,tc.table_name, */kcu.column_name/*, tc.constraint_type */"
+		sql += "FROM information_schema.table_constraints as tc "
+		sql += "join information_schema.key_column_usage as kcu on (tc.constraint_name = kcu.constraint_name and tc.table_name = kcu.table_name) "
+		sql += "join information_schema.constraint_column_usage as ccu on ccu.constraint_name = tc.constraint_name "
+		sql += "WHERE constraint_type in ('PRIMARY KEY') AND  tc.table_name like '"+tabla+"' "
+		
+		#print "\n\n SQL: %s \n\n"% sql
+		
+		return self.consultar(sql)

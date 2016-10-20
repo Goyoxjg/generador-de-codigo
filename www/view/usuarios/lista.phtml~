@@ -12,19 +12,19 @@ if($this->usuarios > 0)
 	<div class="col-md-12">&nbsp;</div>
 </div>
 <div class="row" >
-	<div class="col-md-6 col-md-offset-3" >
-		<table class="table table-condensed">
-			<thead>
-				<th class="text-center">id</th>
-				<th class="text-center">nom_usu</th>
-				<th class="text-center">ape_usu</th>
-				<th class="text-center">log_usu</th>
-				<th class="text-center">pas_usu</th>
-				<th class="text-center">ema_usu</th>
-				<th class="text-center">tel_usu</th>
-				<th class="text-center">dir_usu</th>
-				<th class="text-center">Opciones</th>
-			</thead>
+		<div class="col-md-6 col-md-offset-3" >
+			<table class="table table-condensed">
+				<thead>
+					<th class="text-center">id</th>
+					<th class="text-center">nom_usu</th>
+					<th class="text-center">ape_usu</th>
+					<th class="text-center">log_usu</th>
+					<th class="text-center">pas_usu</th>
+					<th class="text-center">ema_usu</th>
+					<th class="text-center">tel_usu</th>
+					<th class="text-center">dir_usu</th>
+					<th class="text-center">Opciones</th>
+				</thead>
 			<tbody>
 			<?php
 				foreach ($this->usuarios as $key => $value)
@@ -54,20 +54,6 @@ if($this->usuarios > 0)
 				}?>
 			</tbody>
 		</table>
-	</div>
 </div>
-	
-<div class="row">
-	<div class="col-md-12" >
-		<a href="<?= BASE_URL;?>usuarios/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Agregar</a>
 	</div>
-</div>
-<?php
-if(isset($this->msg))
-{?>
-	<script id="msgModal">
-		ejecutarModal("<?= $this->msg;?>"," Usuarios",{label: "Ok"});
-	</script>
-<?php
-}
-?>
+		

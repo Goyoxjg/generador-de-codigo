@@ -4,32 +4,40 @@
 <div class="row" >
 	<div class="col-md-8 col-md-offset-2" >
 		<form id="form" role="form" action="<?= BASE_URL;?>permisos_roles/actionEditar/" method="POST">
-			<legend>Editar Permisos_roles</legend>
+			<legend>Editar PermisosRoles</legend>
 			<div class="form-group control-group col-md-2">
 				<label for="id_rol" class="control-label">id_rol</label>
 				<div class="controls">
-					<input type="number" class="form-control" name="Permisos_roles[id_rol]" id="id_rol" placeholder="id_rol">
+					<input type="number" class="form-control" name="permisos_roles[id_rol]" id="id_rol" placeholder="id_rol">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="id_per" class="control-label">id_per</label>
 				<div class="controls">
-					<input type="number" class="form-control" name="Permisos_roles[id_per]" id="id_per" placeholder="id_per">
+					<input type="number" class="form-control" name="permisos_roles[id_per]" id="id_per" placeholder="id_per">
 				</div>
 			</div>
 			<div class="form-group control-group col-md-2">
 				<label for="fec_per_rol" class="control-label">fec_per_rol</label>
 				<div class="controls">
-					<input type="date" class="form-control" name="Permisos_roles[fec_per_rol]" id="fec_per_rol" placeholder="fec_per_rol">
+					<input type="date" class="form-control" name="permisos_roles[fec_per_rol]" id="fec_per_rol" placeholder="fec_per_rol">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12 col-md-offset-0" >
+				<div class="col-md-12" >
 					<button type="submit" class="btn btn-primary" role="button">Editar</button>
 					<a href="			<?= BASE_URL;?>permisos_roles/actionEditar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
 				</div>
 			</div>
 		</form>
 	</div>
-</div>
-	
+		</div>
+	<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>","Editar Permisos_roles",{label: "Ok"});
+	</script>
+<?php
+}
+?>
