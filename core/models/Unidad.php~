@@ -1,0 +1,96 @@
+<?php
+class Unidad extends ActiveRecord\Model
+{
+    static $table_name = 'unidades';    
+    static $primary_key = 'id_uni';    
+    
+    public function listarUnidades($id_com = 1)
+    {          
+        $data = Unidad::find('all',Array("conditions" => "id_com_uni = $id_com and sta_uni = 1", "order" => "des_uni asc"));
+Herramientas::debug(Unidad::conection()->last_query);
+        return Herramientas::obtener_atributos($data);
+    }
+    
+    public function listarUnidadesOperacionales($id_com = 1)
+    {          
+        
+        $data = Unidad::find('all',Array("conditions" => "id_com_uni = $id_com and sta_uni = 1 AND adm_uni = false", "order" => "des_uni asc"));
+        return Herramientas::obtener_atributos($data);
+    }
+    
+    public function listarUnidadesAdministrativas($id_com = 1)
+    {          
+        $data = Unidad::find('all',Array("conditions" => "id_com_uni = $id_com and sta_uni = 1 AND adm_uni = false", "order" => "des_uni asc"));
+        return Herramientas::obtener_atributos($data);
+    }
+    
+    public function consultarUnidad($id)
+    {       
+        return (object)Herramientas::obtener_atributos(Unidad::find($id));
+    }
+    
+    public function consultarUnidadesPorComando($id_com = 1)
+    {       
+        $data = Unidad::find('all',Array("conditions" => "id_com_uni = $id_com"));
+        if($data)
+        {
+            return Herramientas::obtener_atributos($data);
+        }
+        else 
+        {
+            return array();
+        }
+    }
+    
+    public function agregarUnidad($datos)
+    {        
+        if(!Unidad::find_by_des_uni($datos["des_uni"]))
+        {
+            Unidad::create($datos);
+            if($id_uni = Unidad::find_by_des_uni($datos["des_uni"])->id_uni)
+            {
+                return $id_uni;//exito
+            }
+            else
+            {
+                return 0;//Error
+            }            
+        }
+        else
+        {
+            return -1;//existe
+        }
+    }
+    
+    public function modificarUnidad($datos)
+    {   
+        $datos["id_com_uni"] = 1;
+        $unidad = Unidad::find($datos["id_uni"]);
+        if($unidad->update_attributes($datos))
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    public function eliminarUnidad($id)
+    {             
+        try 
+        {
+            $unidad = Unidad::find($id);
+            return ($unidad->update_attributes(array("sta_uni"=>"0")))?TRUE:FALSE;
+        }
+        catch (ActiveRecord\RecordNotFound $e) 
+        {
+            return FALSE;
+            exit();
+        }
+        $unidad->delete();
+        
+        return TRUE;
+    }          
+}
+?>

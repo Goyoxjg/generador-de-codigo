@@ -65,7 +65,7 @@ class PermisosRoles extends ActiveRecord\Model
 	{
 		try
 		{
-			$objeto = PermisosRoles::find($id]);
+			$objeto = PermisosRoles::find($id);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)

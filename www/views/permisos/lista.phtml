@@ -1,54 +1,63 @@
 <?php
-if($this->usuarios > 0)
+if($this->permisos > 0)
 {?>
 <script>
-    $(document).ready(function() {
-        dataTables.aoColumnDefs = [{"bSortable": false, "aTargets": [ 2 ] }];                                    
-        $('.table').dataTable(dataTables);        
-    });
+	$(document).ready(function() {
+		$(".table").dataTable(dataTables);
+	});
 </script>
 <?php
 }?>
 <div class="row">
-    <div class="col-md-12">&nbsp;</div>    
+	<div class="col-md-12">&nbsp;</div>
 </div>
+<div class="row" >
+	<div class="col-md-6 col-md-offset-3" >
+		<table class="table table-condensed">
+			<thead>
+				<th class="text-center">id_per</th>
+				<th class="text-center">fk_per</th>
+				<th class="text-center">nom_per</th>
+				<th class="text-center">Opciones</th>
+			</thead>
+			<tbody>
+			<?php
+				foreach ($this->permisos as $key => $value)
+				{?>
+				<tr>
+					<td class="text-center"><?= $value->id_per;?></td>
+					<td class="text-center"><?= $value->fk_per;?></td>
+					<td class="text-center"><?= $value->nom_per;?></td>
+					<td class="text-center">
+						<a href="<?= BASE_URL.'permisos/actionConsultar/'.$value->id_per;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+						<a href="<? BASE_URL.'permisos/actionEditar/'.$value->id_per;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						<a href="<? BASE_URL.'permisos/actionEliminar/'.$value->id_per;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+			<?php
+				}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <table class="table table-condensed">
-            <thead>                
-                <th class="text-center">Usuario</th>
-                <th class="text-center">Cargo</th>
-                <th class="text-center">Opciones</th>
-            <thead>
-            <tbody>
-                <?php 
-                if($this->usuarios > 0)
-                {
-                    foreach ($this->usuarios as $key => $value) 
-                    {
-                ?>
-                <tr>                
-                    <td class="text-center"><?= $value->log_usu;?></td>
-                    <td class="text-center"><?= ucfirst($value->nom_rol);?></td>
-                    <td class="text-center">
-                        <a href="<?= BASE_URL."permisos/actionEditar/".$value->id."/".$value->id_rol;?>" class="btn btn-primary col-md-offset-1" role="button">
-                            <span class="glyphicon glyphicon-cog"></span>
-                        </a>                        
-                    </td>
-                </tr>
-                <?php
-                    }
-                }
-                else
-                {?>
-                <tr>
-                    <td class="text-center" colspan="5">No Existen datos a mostrar.</td>
-                </tr>
-                <?php    
-                }?>   
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-2"></div>
+	<div class="col-md-12" >
+		<a href="<?= BASE_URL;?>permisos/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Agregar</a>
+	</div>
 </div>
+<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>"," Permisos",{label: "Ok"});
+	</script>
+<?php
+}
+?>

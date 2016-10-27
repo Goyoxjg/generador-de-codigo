@@ -1,73 +1,28 @@
 <div class="row">
-    <div class="col-md-12">&nbsp;</div>
+	<div class="col-md-12">&nbsp;</div>
 </div>
-<div class="row">    
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <legend>Editar Permisos </legend> 
-        <div class="form-group col-md-4">
-            <label for="nom_usu">Usuario</label>
-            <input type="text" class="form-control" value="<?= $this->usuarios->log_usu;?>" readonly>
-        </div>
-        <div class="form-group col-md-12">
-            <table class="table table-striped">
-                <tr>
-                    <th class="text-center">Modulos</th>
-                    <th class="text-center">Premisos / Rol</th>
-                    <th class="text-center">Premisos / Usuarios</th>
-                <tr>
-                <?php                           
-                foreach ($this->permisosUsu as $key => $value) 
-                {?>
-                <tr>
-                    <td class="text-Left">
-                        <?= ucwords(str_replace("_", " ", $this->permisosUsu[$key]->permkey));?>
-                    </td>        
-                    <td class="text-center">
-                        <?php
-                        if($this->permisosUsu[$key]->estado_rol)
-                        {
-                            $icono = 'ok';
-                            $title = "Deshabilitar";
-                            $metodo = "deshabilitar";
-                        }
-                        else
-                        {
-                            $icono = 'remove';
-                            $title = "Habilitar";
-                            $metodo = "habilitar";
-                        }?>
-                        <span title="<?= $title; ?>" style="cursor: pointer" class="glyphicon glyphicon-<?= $icono;?>"></span>
-                    </td>
-                    <td class="text-center">
-                        <?php
-                        if($this->permisosUsu[$key]->estado_usu || $this->permisosUsu[$key]->estado_rol)
-                        {
-                            $icono = 'ok';
-                            $title = "Deshabilitar";
-                            $metodo = "deshabilitar";
-                        }
-                        else
-                        {
-                            $icono = 'remove';
-                            $title = "Habilitar";
-                            $metodo = "habilitar";
-                        }
-                        
-                        
-                        ?>                        
-                        <span title="'.$title.'" style="cursor: pointer" class="glyphicon glyphicon-'.$icono.'"></span>
-                    </td>
-                </tr>
-                <?php                 
-                }?>
-            </table>
-        </div>
-        <div class="form-group col-md-12">
-            <a href="<?= BASE_URL;?>permisos/">
-                <button type="button" class="btn btn-default col-md-offset-5" accesskey="v">Volver</button>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-4"></div>
-</div>
+<div class="row" >
+	<div class="col-md-8 col-md-offset-2" >
+		<form id="form" role="form" action="<?= BASE_URL;?>/action/" method="POST">
+			<legend>Consultar Permisos</legend>
+			<div class="form-group control-group col-md-2">
+				<label for="fk_per" class="control-label">fk_per</label>
+				<div class="controls">
+					<input type="text" class="form-control" name="permisos[fk_per]" id="fk_per" placeholder="fk_per">
+				</div>
+			</div>
+			<div class="form-group control-group col-md-2">
+				<label for="nom_per" class="control-label">nom_per</label>
+				<div class="controls">
+					<input type="text" class="form-control" name="permisos[nom_per]" id="nom_per" placeholder="nom_per">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-md-offset-0" >
+					<a href="			<?= BASE_URL;?>permisos/actionConsultar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
+				</div>
+			</div>
+		</form>
+	</div>
+		</div>
+	

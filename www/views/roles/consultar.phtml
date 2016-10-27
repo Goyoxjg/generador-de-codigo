@@ -1,104 +1,22 @@
-<?php
-if($this->permisosRoles > 0)
-{?>
-<script>
-    $(document).ready(function() {
-        $('.table').dataTable({
-                "oLanguage": {
-                        "oPaginate": {
-                                        "sFirst":"Primero ", 
-                                        "sPrevious":"Anterior ", 
-                                        "sNext":"Siguiente ", 
-                                        "sLast":"Último "
-                                    },
-			"sLengthMenu": "_MENU_ ",
-			"sZeroRecords": "No se encontro data",
-			"sInfo": "_START_ - _END_ / _TOTAL_ registros",
-			"sInfoEmpty": "Mostrando 0 - 0 / 0 registros",
-			"sInfoFiltered": "(Filtrado de _MAX_ registros en total)",
-                        "sSearch": "",
-                        "sLengthMenu": '<select>'+
-                                            '<option value="5" selected>5 Registros</option>'+
-                                            '<option value="10">10 Registros</option>'+
-                                            '<option value="20">20 Registros</option>'+        
-                                            '<option value="-1">Todos</option>'+
-                                        '</select> ',                                                                    
-                        "sLoadingRecords": "Por favor espere - Cargando..."
-		},
-                "sDom": '<"top"f>rt<"bottom"p><"clear">'
-                ,"bStateSave": true
-                ,"iDisplayLength": 5
-                ,"aoColumnDefs": [
-                                    { 
-                                        "bSortable": false, 
-                                        "aTargets": [ 1 ] 
-                                    }
-                                 ]              
-        });
-              
-        //$("input , select").addClass("form-control");
-        //$("input").attr("placeholder", "Filtrar");     
-    });
-</script>
-<?php 
-}?>
 <div class="row">
-    <div class="col-md-12">&nbsp;</div>
+	<div class="col-md-12">&nbsp;</div>
 </div>
-<div class="row">
-    <div class="col-md-8 col-md-offset-4" >    
-            <div class="row">
-                <div class="col-md-6">
-                    <table class="table table-striped">
-                        <thead>
-                            <th class="text-center">Modulos</th>
-                            <th class="text-center">Estado</th>
-                        </thead>
-                        <tbody>
-                            <?php    
-                            if($this->permisosRoles > 0)
-                            {                    
-                                foreach ($this->permisosRoles as $key => $value) 
-                                {
-                            ?>
-                            <tr>
-                                <td class="text-Left">
-                                    <?php 
-                                        $valores = explode("_", $value->fk_per);
-                                        print ucwords($valores[1]." ".$valores[0]);
-                                    ?>
-                                </td>           
-                                <td class="text-center">
-                                    <?php
-                                    if($value->estado)
-                                    {
-                                        $icono = 'ok';
-                                    }
-                                    else
-                                    {
-                                        $icono = 'remove';
-                                    }?>
-                                    <span style="cursor: pointer" class="glyphicon glyphicon-<?= $icono;?>"></span>
-                                </td>
-                            </tr>
-                            <?php                 
-                                }                    
-                            }
-                            else
-                            {?>
-                            <tr>
-                                <td class="text-center" colspan="5">No Existen datos a mostrar.</td>
-                            </tr>
-                            <?php
-                            }?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6 form-actions">
-                    <a href="<?= BASE_URL;?>roles" class="btn btn-primary col-md-offset-5" role="button">Volver</a>
-                </div>
-            </div>
-    </div>
-</div>
+<div class="row" >
+	<div class="col-md-8 col-md-offset-2" >
+		<form id="form" role="form" action="<?= BASE_URL;?>/action/" method="POST">
+			<legend>Consultar Roles</legend>
+			<div class="form-group control-group col-md-2">
+				<label for="nom_rol" class="control-label">nom_rol</label>
+				<div class="controls">
+					<input type="text" class="form-control" name="roles[nom_rol]" id="nom_rol" placeholder="nom_rol">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-md-offset-0" >
+					<a href="			<?= BASE_URL;?>roles/actionConsultar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
+				</div>
+			</div>
+		</form>
+	</div>
+		</div>
+	

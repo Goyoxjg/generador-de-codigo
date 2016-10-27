@@ -1,0 +1,43 @@
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-8 col-md-offset-2" >
+		<form id="form" role="form" action="<?= BASE_URL;?>validaciones/actionAgregar/" method="POST">
+			<legend>Agregar Validaciones</legend>
+			<div class="form-group control-group col-md-2">
+				<label for="nom_val" class="control-label">nom_val</label>
+				<div class="controls">
+					<input type="text" class="form-control" name="validaciones[nom_val]" id="nom_val" placeholder="nom_val">
+				</div>
+			</div>
+			<div class="form-group control-group col-md-2">
+				<label for="cod_att_val" class="control-label">cod_att_val</label>
+				<div class="controls">
+					<input type="text" class="form-control" name="validaciones[cod_att_val]" id="cod_att_val" placeholder="cod_att_val">
+				</div>
+			</div>
+			<div class="form-group control-group col-md-2">
+				<label for="cod_msg_val" class="control-label">cod_msg_val</label>
+				<div class="controls">
+					<input type="text" class="form-control" name="validaciones[cod_msg_val]" id="cod_msg_val" placeholder="cod_msg_val">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12" >
+					<button type="submit" class="btn btn-primary" role="button">Agregar</button>
+					<a href="			<?= BASE_URL;?>validaciones/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
+				</div>
+			</div>
+		</form>
+	</div>
+		</div>
+	<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>","Agregar Validaciones",{label: "Ok"});
+	</script>
+<?php
+}
+?>

@@ -65,7 +65,7 @@ class RolesUsuarios extends ActiveRecord\Model
 	{
 		try
 		{
-			$objeto = RolesUsuarios::find($id]);
+			$objeto = RolesUsuarios::find($id);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)

@@ -65,7 +65,7 @@ class ValidadoresCampos extends ActiveRecord\Model
 	{
 		try
 		{
-			$objeto = ValidadoresCampos::find($id]);
+			$objeto = ValidadoresCampos::find($id);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)

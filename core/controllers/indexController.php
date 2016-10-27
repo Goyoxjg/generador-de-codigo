@@ -37,7 +37,7 @@ class indexController extends Controller
             } 
             else 
             {
-                $usuario = Usuario::consultarUsuario($datos->id);
+                $usuario = Usuarios::consultarUsuarios($datos->id);
                 
                 Session::set("id_usu", $usuario->id);
                 Session::set("nom_usu", $usuario->nom_usu);

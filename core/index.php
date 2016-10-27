@@ -15,7 +15,7 @@ require_once APP_PATH . 'Database.php';
 require_once APP_PATH . 'Session.php';
 require_once APP_PATH . 'Acl.php';
 require_once APP_PATH . 'ManagerPermission.php';
-require_once APP_PATH . 'explorador.php';
+require_once APP_PATH . 'Explorador.php';
 require_once APP_PATH . 'php-activerecord/ActiveRecord.php';
 require_once APP_PATH . 'PHPMailer_v5.1/class.phpmailer.php';
 

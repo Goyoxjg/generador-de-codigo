@@ -1,0 +1,67 @@
+<?php
+if($this->permisos_usuarios > 0)
+{?>
+<script>
+	$(document).ready(function() {
+		$(".table").dataTable(dataTables);
+	});
+</script>
+<?php
+}?>
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-6 col-md-offset-3" >
+		<table class="table table-condensed">
+			<thead>
+				<th class="text-center">id</th>
+				<th class="text-center">id_usu</th>
+				<th class="text-center">id_per</th>
+				<th class="text-center">fec_per_usu</th>
+				<th class="text-center">val_per_usu</th>
+				<th class="text-center">Opciones</th>
+			</thead>
+			<tbody>
+			<?php
+				foreach ($this->permisos_usuarios as $key => $value)
+				{?>
+				<tr>
+					<td class="text-center"><?= $value->id;?></td>
+					<td class="text-center"><?= $value->id_usu;?></td>
+					<td class="text-center"><?= $value->id_per;?></td>
+					<td class="text-center"><?= $value->fec_per_usu;?></td>
+					<td class="text-center"><?= $value->val_per_usu;?></td>
+					<td class="text-center">
+						<a href="<?= BASE_URL.'permisos_usuarios/actionConsultar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+						<a href="<? BASE_URL.'permisos_usuarios/actionEditar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						<a href="<? BASE_URL.'permisos_usuarios/actionEliminar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+			<?php
+				}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<div class="row">
+	<div class="col-md-12" >
+		<a href="<?= BASE_URL;?>permisos_usuarios/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Agregar</a>
+	</div>
+</div>
+<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>"," Permisos_usuarios",{label: "Ok"});
+	</script>
+<?php
+}
+?>

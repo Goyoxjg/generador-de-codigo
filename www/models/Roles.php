@@ -65,7 +65,7 @@ class Roles extends ActiveRecord\Model
 	{
 		try
 		{
-			$objeto = Roles::find($id]);
+			$objeto = Roles::find($id);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)

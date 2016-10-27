@@ -1,0 +1,67 @@
+<?php
+if($this->validadores_campos > 0)
+{?>
+<script>
+	$(document).ready(function() {
+		$(".table").dataTable(dataTables);
+	});
+</script>
+<?php
+}?>
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-6 col-md-offset-3" >
+		<table class="table table-condensed">
+			<thead>
+				<th class="text-center">id_campo</th>
+				<th class="text-center">id_val</th>
+				<th class="text-center">val_att_val_cam</th>
+				<th class="text-center">val_msg_val_cam</th>
+				<th class="text-center">id</th>
+				<th class="text-center">Opciones</th>
+			</thead>
+			<tbody>
+			<?php
+				foreach ($this->validadores_campos as $key => $value)
+				{?>
+				<tr>
+					<td class="text-center"><?= $value->id_campo;?></td>
+					<td class="text-center"><?= $value->id_val;?></td>
+					<td class="text-center"><?= $value->val_att_val_cam;?></td>
+					<td class="text-center"><?= $value->val_msg_val_cam;?></td>
+					<td class="text-center"><?= $value->id;?></td>
+					<td class="text-center">
+						<a href="<?= BASE_URL.'validadores_campos/actionConsultar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+						<a href="<? BASE_URL.'validadores_campos/actionEditar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						<a href="<? BASE_URL.'validadores_campos/actionEliminar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+			<?php
+				}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<div class="row">
+	<div class="col-md-12" >
+		<a href="<?= BASE_URL;?>validadores_campos/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Agregar</a>
+	</div>
+</div>
+<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>"," Validadores_campos",{label: "Ok"});
+	</script>
+<?php
+}
+?>

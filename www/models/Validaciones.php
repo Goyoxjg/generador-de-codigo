@@ -60,7 +60,7 @@ class Validaciones extends ActiveRecord\Model
 	{
 		try
 		{
-			$objeto = Validaciones::find($id]);
+			$objeto = Validaciones::find($id);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)

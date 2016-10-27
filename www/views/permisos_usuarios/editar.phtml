@@ -1,0 +1,43 @@
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-8 col-md-offset-2" >
+		<form id="form" role="form" action="<?= BASE_URL;?>permisos_usuarios/actionEditar/" method="POST">
+			<legend>Editar PermisosUsuarios</legend>
+			<div class="form-group control-group col-md-2">
+				<label for="id_usu" class="control-label">id_usu</label>
+				<div class="controls">
+					<input type="number" class="form-control" name="permisos_usuarios[id_usu]" id="id_usu" placeholder="id_usu">
+				</div>
+			</div>
+			<div class="form-group control-group col-md-2">
+				<label for="id_per" class="control-label">id_per</label>
+				<div class="controls">
+					<input type="number" class="form-control" name="permisos_usuarios[id_per]" id="id_per" placeholder="id_per">
+				</div>
+			</div>
+			<div class="form-group control-group col-md-2">
+				<label for="fec_per_usu" class="control-label">fec_per_usu</label>
+				<div class="controls">
+					<input type="date" class="form-control" name="permisos_usuarios[fec_per_usu]" id="fec_per_usu" placeholder="fec_per_usu">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12" >
+					<button type="submit" class="btn btn-primary" role="button">Editar</button>
+					<a href="			<?= BASE_URL;?>permisos_usuarios/actionEditar/" class="btn btn-primary col-md-offset-1"  role="button">Volver</a>
+				</div>
+			</div>
+		</form>
+	</div>
+		</div>
+	<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>","Editar Permisos_usuarios",{label: "Ok"});
+	</script>
+<?php
+}
+?>

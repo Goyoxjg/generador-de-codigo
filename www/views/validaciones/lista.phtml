@@ -1,0 +1,65 @@
+<?php
+if($this->validaciones > 0)
+{?>
+<script>
+	$(document).ready(function() {
+		$(".table").dataTable(dataTables);
+	});
+</script>
+<?php
+}?>
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-6 col-md-offset-3" >
+		<table class="table table-condensed">
+			<thead>
+				<th class="text-center">id_val</th>
+				<th class="text-center">nom_val</th>
+				<th class="text-center">cod_att_val</th>
+				<th class="text-center">cod_msg_val</th>
+				<th class="text-center">Opciones</th>
+			</thead>
+			<tbody>
+			<?php
+				foreach ($this->validaciones as $key => $value)
+				{?>
+				<tr>
+					<td class="text-center"><?= $value->id_val;?></td>
+					<td class="text-center"><?= $value->nom_val;?></td>
+					<td class="text-center"><?= $value->cod_att_val;?></td>
+					<td class="text-center"><?= $value->cod_msg_val;?></td>
+					<td class="text-center">
+						<a href="<?= BASE_URL.'validaciones/actionConsultar/'.$value->id_val;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+						<a href="<? BASE_URL.'validaciones/actionEditar/'.$value->id_val;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						<a href="<? BASE_URL.'validaciones/actionEliminar/'.$value->id_val;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+			<?php
+				}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<div class="row">
+	<div class="col-md-12" >
+		<a href="<?= BASE_URL;?>validaciones/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Agregar</a>
+	</div>
+</div>
+<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>"," Validaciones",{label: "Ok"});
+	</script>
+<?php
+}
+?>

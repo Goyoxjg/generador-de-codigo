@@ -1,0 +1,73 @@
+<?php
+if($this->usuarios > 0)
+{?>
+<script>
+	$(document).ready(function() {
+		$(".table").dataTable(dataTables);
+	});
+</script>
+<?php
+}?>
+<div class="row">
+	<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row" >
+	<div class="col-md-6 col-md-offset-3" >
+		<table class="table table-condensed">
+			<thead>
+				<th class="text-center">id</th>
+				<th class="text-center">nom_usu</th>
+				<th class="text-center">ape_usu</th>
+				<th class="text-center">log_usu</th>
+				<th class="text-center">pas_usu</th>
+				<th class="text-center">ema_usu</th>
+				<th class="text-center">tel_usu</th>
+				<th class="text-center">dir_usu</th>
+				<th class="text-center">Opciones</th>
+			</thead>
+			<tbody>
+			<?php
+				foreach ($this->usuarios as $key => $value)
+				{?>
+				<tr>
+					<td class="text-center"><?= $value->id;?></td>
+					<td class="text-center"><?= $value->nom_usu;?></td>
+					<td class="text-center"><?= $value->ape_usu;?></td>
+					<td class="text-center"><?= $value->log_usu;?></td>
+					<td class="text-center"><?= $value->pas_usu;?></td>
+					<td class="text-center"><?= $value->ema_usu;?></td>
+					<td class="text-center"><?= $value->tel_usu;?></td>
+					<td class="text-center"><?= $value->dir_usu;?></td>
+					<td class="text-center">
+						<a href="<?= BASE_URL.'usuarios/actionConsultar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+						<a href="<? BASE_URL.'usuarios/actionEditar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+						<a href="<? BASE_URL.'usuarios/actionEliminar/'.$value->id;?>" class="btn btn-primary"  role="button">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+			<?php
+				}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<div class="row">
+	<div class="col-md-12" >
+		<a href="<?= BASE_URL;?>usuarios/actionAgregar/" class="btn btn-primary col-md-offset-1"  role="button">Agregar</a>
+	</div>
+</div>
+<?php
+if(isset($this->msg))
+{?>
+	<script id="msgModal">
+		ejecutarModal("<?= $this->msg;?>"," Usuarios",{label: "Ok"});
+	</script>
+<?php
+}
+?>

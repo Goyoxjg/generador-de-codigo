@@ -97,7 +97,7 @@ try:
 		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
 		return cadena
 
-	def metodoConsultar(modelo):
+	def metodoConsultar(modelo):		
 		cadena = ''
 		cadena += tab+'public function consultar'+modelo+'($id)'+nl+tab
 		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
@@ -117,7 +117,7 @@ try:
 		cadena = ''
 		cadena += tab+'public function eliminar'+modelo+'($id)'+nl+tab
 		cadena += '{'+nl+tab*2+'try'+nl+tab*2+'{'+nl+tab*3
-		cadena += '$objeto = '+modelo+'::find($id]);'+nl+tab*3+'return $objeto->delete();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
+		cadena += '$objeto = '+modelo+'::find($id);'+nl+tab*3+'return $objeto->delete();'+nl+tab*2+'}'+nl+tab*2+'catch (Exception $exc)'+nl+tab*2+'{'+nl
 		cadena += tab*3+'$this->fatalError($exc->getMessage());'+nl+tab*2+'}'+nl+tab*1+'}'+nl*2
 		return cadena
 
@@ -270,7 +270,7 @@ try:
 		
 		controlador = open("www/controllers/"+nombreControlador+'.php','w')		
 
-		dirView = "www/view/"+tabla[0]+"/"
+		dirView = "www/views/"+tabla[0]+"/"
 		if not os.path.exists(dirView):
 			os.makedirs(dirView)
 

@@ -58,7 +58,7 @@ class OrigenCampos extends ActiveRecord\Model
 	{
 		try
 		{
-			$objeto = OrigenCampos::find($id]);
+			$objeto = OrigenCampos::find($id);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)

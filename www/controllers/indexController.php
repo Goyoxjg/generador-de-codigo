@@ -8,8 +8,7 @@ class indexController extends Controller
  
     public function index()
     {                    
-        $configuracion = Configuracion::consultarConfiguracion();
-        
+
         Session::set("nom_log", $configuracion->nom_log);        
         Session::set("nom_tem", $configuracion->nom_tem);
         Session::set("for_fec", $configuracion->for_fec);
@@ -38,7 +37,7 @@ class indexController extends Controller
             } 
             else 
             {
-                $usuario = Usuario::consultarUsuario($datos->id);
+                $usuario = Usuarios::consultarUsuarios($datos->id);
                 
                 Session::set("id_usu", $usuario->id);
                 Session::set("nom_usu", $usuario->nom_usu);

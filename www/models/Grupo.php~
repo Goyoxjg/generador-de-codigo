@@ -1,0 +1,142 @@
+<?php
+class Grupo extends ActiveRecord\Model
+{
+    static $table_name = 'grupos';    
+    static $primary_key = 'id_gru';  
+    static $validaciones = Array(
+        "id_uni_gru" => Array(
+            "nombre" => "Unidad a la que pertenece",
+            "longitud" => "55",
+            "NULL" => false
+        ),
+        "des_gru" => Array(
+            "nombre" => "Nombre del Grupo",
+            "longitud" => "55",
+            "NULL" => false
+        ),
+        "abr_gru" => Array(
+            "nombre" => "Abreviación",
+            "longitud" => "25",
+            "NULL" => false
+        ),
+        "id_est_gru" => Array(
+            "nombre" => "Estación a la que pertenece",
+            "longitud" => "55",
+            "NULL" => false
+        )
+    );
+    
+    public function listarGrupos($id_uni = false , $adm = false)
+    {          	
+        $where = ($id_uni)?"WHERE id_uni_gru = $id_uni AND sta_gru = 1":"WHERE sta_gru = 1";
+	$where .= ($adm)?" AND adm_uni = true":"";
+
+        $sql = "SELECT 
+                    *
+                FROM 	
+                    unidades u
+                LEFT JOIN 
+                    grupos g ON (g.id_uni_gru = u.id_uni)
+                LEFT JOIN 
+                    estaciones e ON (g.id_est_gru = e.id_est)
+                $where
+                ORDER BY 
+                    des_uni,des_gru ASC";
+        Herramientas::debug($sql);
+        $data = Herramientas::obtener_atributos(Grupo::find_by_sql($sql));        
+        return $data;        
+    }
+    
+    public function listarTodosGrupos()
+    {          
+        $data = Herramientas::obtener_atributos(Grupo::all(Array("order"=>"abr_gru")));        
+        return $data;        
+    }
+    
+    public function consultarGrupo($id)
+    {       
+        $grupo = Grupo::find($id); 
+        $atributos = $grupo->attributes();
+        return (object)$atributos;
+    }
+    
+    public function consultarGrupoPorUnidad($id)
+    {       
+        if($id)
+        {
+            return Herramientas::obtener_atributos(Grupo::find_all_by_id_uni_gru($id)); 
+        }
+        else
+        {
+            return Array();
+        }
+        
+    }
+    
+    public function agregarGrupo($datos)
+    {        
+        $respuesta = Herramientas::validaciones($datos,  Grupo::$validaciones);
+        if($respuesta === true)
+        {
+            if(!Grupo::find_by_des_gru($datos["des_gru"]))
+            {
+                Grupo::create($datos);
+                if($id_gru = Grupo::find_by_des_gru($datos["des_gru"])->id_gru)
+                {
+                    return $id_gru;//exito
+                }
+                else
+                {
+                    return 0;//Error
+                }            
+            }
+            else
+            {
+                return -1;//existe
+            }
+        }
+        else 
+        {
+            return $respuesta;
+        }
+    }
+    
+    public function modificarGrupo($datos)
+    {   
+        $respuesta = Herramientas::validaciones($datos,  Grupo::$validaciones);
+        if($respuesta === true)
+        {
+            $grupo = Grupo::find($datos["id_gru"]);
+            if($grupo->update_attributes($datos))
+            {
+                return TRUE;
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+        else
+        {
+            return $respuesta;
+        }
+    }
+    
+    public function eliminarGrupo($id)
+    {             
+        try 
+        {
+            $grupo = Grupo::find($id);
+            return ($grupo->update_attributes(array("sta_gru"=>"0")))?TRUE:FALSE;
+        }
+        catch (ActiveRecord\RecordNotFound $e) 
+        {
+            return FALSE;
+            exit();
+        }
+        $grupo->delete();
+        
+        return TRUE;
+    }          
+}
+?>

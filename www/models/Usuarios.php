@@ -65,7 +65,7 @@ class Usuarios extends ActiveRecord\Model
 	{
 		try
 		{
-			$objeto = Usuarios::find($id]);
+			$objeto = Usuarios::find($id);
 			return $objeto->delete();
 		}
 		catch (Exception $exc)
